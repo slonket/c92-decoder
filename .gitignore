@@ -1,0 +1,68 @@
+# PROJECT SPECIFIC
+/scratchpad/
+/docs/datasheets
+/docs/manuals/
+/hardware/production/
+*/.stl
+
+# MACOS
+.DS_Store
+.localized
+__MACOSX/
+.AppleDouble
+.LSOverride
+
+# RUST
+debug
+target
+**/*.rs.bk
+*.pdb
+**/mutants.out*/
+
+# VSCODE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
+
+# KICAD
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*-backups
+*-cache*
+*-bak
+*-bak*
+*~
+~*
+_autosave-*
+\#auto_saved_files\#
+*.tmp
+*-save.pro
+*-save.kicad_pcb
+fp-info-cache
+~*.lck
+\#auto_saved_files#
+*.net
+*.dsn
+*.ses
+*.xml
+*.csv
+**/*-backups/*.zip
+.history
+.history_trim
+*.kicad_prl
+
+# KICAD PLUGINS
+fabrication-toolkit-options.json
+
+# FREECAD
+*.lock
+*.FCStd[0-9]*
+*.generated.brep
+*.g.brp

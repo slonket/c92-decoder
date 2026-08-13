@@ -1,0 +1,41 @@
+[default.probe]
+protocol = "Swd"
+
+[default.general]
+chip = "STM32G031F6"
+connect_under_reset = false
+
+[default.flashing]
+enabled = true
+restore_unwritten_bytes = false
+do_chip_erase = false
+
+[default.reset]
+enabled = true
+halt_afterwards = false
+
+[default.rtt]
+enabled = false
+
+[default.gdb]
+enabled = false
+
+# debug profile (flash + defmt)
+[defmt.rtt]
+enabled = true
+timeout = 3000
+log_enabled = false
+log_path = "./logs"
+
+# connect to defmt without flashing
+[connect.flashing]
+enabled = false
+
+[connect.reset]
+enabled = false
+
+[connect.rtt]
+enabled = true
+timeout = 3000
+log_enabled = false
+log_path = "./logs"

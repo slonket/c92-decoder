@@ -1,0 +1,12 @@
+[build]
+target = "thumbv6m-none-eabi"
+
+[target.thumbv6m-none-eabi]
+runner = "probe-rs run --chip STM32G031F6"
+rustflags = [
+    "-C", "link-args=-Tlink.x",
+    "-C", "link-args=-Tdefmt.x",
+]
+
+[env]
+DEFMT_RTT_BUFFER_SIZE = "256"
