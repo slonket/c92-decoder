@@ -1,3 +1,3 @@
 [submodule "hardware/libs/slonket-footprints"]
 	path = hardware/libs/slonket-footprints
-	url = git@github.com:slonket/slonket-footprints.git
+	url = https://github.com/slonket/slonket-footprints.git
