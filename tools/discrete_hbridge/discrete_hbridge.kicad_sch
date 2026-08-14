@@ -6,9 +6,9 @@
 	(paper "A4")
 	(title_block
 		(title "Decoder H-Bridge Development Board")
-		(date "2026-05-15")
+		(date "2026-08-14")
 		(rev "REV-A1")
-		(company "Slonket")
+		(company "https://github.com/slonket/c92-decoder")
 	)
 	(lib_symbols
 		(symbol "Amplifier_Current:INA180A2"

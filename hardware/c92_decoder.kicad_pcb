@@ -7,6 +7,12 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "c92 decoder")
+		(date "2026-08-14")
+		(rev "REV-A1")
+		(company "https://github.com/slonket/c92-decoder")
+	)
 	(layers
 		(0 "F.Cu" signal "1_SIGNAL")
 		(4 "In1.Cu" signal "2_GROUND")
