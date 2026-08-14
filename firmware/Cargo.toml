@@ -2,6 +2,10 @@
 name = "c92-firmware"
 version = "0.1.0"
 edition = "2024"
+authors = ["Ava Wolfe <ava.codie.wolfe@gmail.com>"]
+description = "An MM1/MM2/Lenz decoder for classic Märklin locomotives and the pre-mfx digital systems."
+license = "CERN-OHL-S-2.0"
+repository = "https://github.com/slonket/c92-decoder"
 
 [[bin]]
 name = "c92-firmware"
