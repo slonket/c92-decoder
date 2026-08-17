@@ -131,8 +131,6 @@ fn main() -> ! {
     // function outputs
     let mut f0_fw = gpiob.pb6.into_open_drain_output();
     let mut f0_rv = gpiob.pb7.into_open_drain_output();
-    let mut f1 = gpioa.pa11.into_push_pull_output();
-    let mut f2 = gpioa.pa12.into_push_pull_output();
     f0_fw.set_high().ok(); // TEMP only while using open-drain outputs
     f0_rv.set_high().ok();
 
@@ -235,13 +233,14 @@ fn main() -> ! {
         adc.cr.modify(|_, w| w.adstart().set_bit());
     }
 
-    // PA0 setup (TIM2_CH1 output)
-    let motor_pwm = gpioa.pa0;
-    TimerPin::<pac::TIM2>::setup(&motor_pwm);
-
     // TIM2 setup (motor control PA0)
     unsafe {
+        let gpioa = &*pac::GPIOA::ptr();
         let tim2 = &*pac::TIM2::ptr();
+
+        // gpio setup
+        gpioa.moder.modify(|_, w| w.moder0().bits(0b10)); // alternate mode for TIM2_CH1
+        gpioa.afrl.modify(|_, w| w.afsel0().bits(0b0010)); // AF2 = TIM2_CH1
 
         // general timer config
         tim2.arr.write(|w| w.bits(T_PWM)); // set PWM frequency (25kHz)
@@ -269,13 +268,14 @@ fn main() -> ! {
         tim2.cr1.modify(|_, w| w.cen().set_bit()); // enable the counter
     }
 
-    // PA4 setup (TIM14_CH1 input)
-    let data_input = gpioa.pa4;
-    TimerPin::<pac::TIM14>::setup(&data_input);
-
     // TIM14 setup (track data capture PA4)
     unsafe {
+        let gpioa = &*pac::GPIOA::ptr();
         let tim14 = &*pac::TIM14::ptr();
+
+        // gpio setup (alternate mode for TIM14_CH1)
+        gpioa.moder.modify(|_, w| w.moder4().bits(0b10));
+        gpioa.afrl.modify(|_, w| w.afsel4().bits(0b0100)); // AF4 = TIM14_CH1
 
         tim14.dier.write(|w| w.cc1ie().set_bit()); // enable CC1 interrupt
         tim14.ccmr1_input().write(|w|
@@ -343,8 +343,8 @@ fn main() -> ! {
                     }
                     Some(LenzCommand::Function(f)) if f.address() == ADDRESS => {
                         let states = f.states();
-                        f1.set_state(states[0].into()).unwrap();
-                        f2.set_state(states[1].into()).unwrap();
+                        // f1.set_state(states[0].into()).unwrap();
+                        // f2.set_state(states[1].into()).unwrap();
                         // f3.set_state(states[2].into()).unwrap();
                         // f4.set_state(states[3].into()).unwrap();
                         motor_control.ramp_bypass(states[3]);
@@ -393,8 +393,8 @@ fn main() -> ! {
 
                             // set the corresponding function - only one per function packet
                             match function {
-                                1 => f1.set_state(state.into()).unwrap(),
-                                2 => f2.set_state(state.into()).unwrap(),
+                                1 => {} // f1.set_state(state.into()).unwrap(),
+                                2 => {} // f2.set_state(state.into()).unwrap(),
                                 3 => {} // f3.set_state(state.into()).unwrap(),
                                 4 => {
                                     // f4.set_state(state.into()).unwrap();
@@ -417,8 +417,8 @@ fn main() -> ! {
 
                         // update all functions
                         let states = f.states();
-                        f1.set_state(states[0].into()).unwrap();
-                        f2.set_state(states[1].into()).unwrap();
+                        // f1.set_state(states[0].into()).unwrap();
+                        // f2.set_state(states[1].into()).unwrap();
                         // f3.set_state(states[2].into()).unwrap();
                         // f4.set_state(states[3].into()).unwrap();
                         motor_control.ramp_bypass(states[3]);
