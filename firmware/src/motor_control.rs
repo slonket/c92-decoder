@@ -1,7 +1,7 @@
 use stm32g0xx_hal::{
     prelude::OutputPin,
     pac::tim2,
-    gpio::{PA2, PA3, Output, PushPull},
+    gpio::{PA1, PA2, Output, PushPull},
 };
 use core::ptr::write_volatile;
 
@@ -111,8 +111,8 @@ pub struct MotorControl {
     ramp_bypass: bool,
 
     // controllable outputs
-    motor_fw: Option<PA2<Output<PushPull>>>,
-    motor_rv: Option<PA3<Output<PushPull>>>,
+    motor_fw: Option<PA1<Output<PushPull>>>,
+    motor_rv: Option<PA2<Output<PushPull>>>,
     motor_pwm: Option<*mut u32>,
 }
 
@@ -138,7 +138,7 @@ impl MotorControl {
     }
 
     /// Set the runtime values (pins, CCR1). MUST BE CALLED BEFORE tick()
-    pub fn init(&mut self, motor_fw: PA2<Output<PushPull>>, motor_rv: PA3<Output<PushPull>>, tim2: &tim2::RegisterBlock) {
+    pub fn init(&mut self, motor_fw: PA1<Output<PushPull>>, motor_rv: PA2<Output<PushPull>>, tim2: &tim2::RegisterBlock) {
         self.motor_fw = Some(motor_fw);
         self.motor_rv = Some(motor_rv);
         self.motor_pwm = Some(&tim2.ccr1 as *const _ as *mut u32);

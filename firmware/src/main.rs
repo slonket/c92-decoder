@@ -52,7 +52,6 @@ const T_ADC: u32 = T_PWM_LONG - ((F_CLK/1_000_000)*10); //10us before end of dea
 
 // OTHER CONSTANTS
 const N_PULSE_BUF: usize = 64;
-const I_TRIP: u32 = 1240; // approx 1V = 1A
 
 const ADDRESS: u8 = 10;
 
@@ -63,11 +62,10 @@ struct AdcBuf {
     bemf: u16,
     v_acc: u16,
     v_max: u16,
-    i_motor: u16,
 }
 
 impl AdcBuf {
-    const LEN: usize = 4;
+    const LEN: usize = 3;
 }
 
 // READ-ONLY STATICS - these will live in .rodata (flash only)
@@ -123,8 +121,8 @@ fn main() -> ! {
     let gpiob = dp.GPIOB.split(&mut rcc);
 
     // motor outputs
-    let mut motor_fw = gpioa.pa2.into_push_pull_output();
-    let mut motor_rv = gpioa.pa3.into_push_pull_output();
+    let mut motor_fw = gpioa.pa1.into_push_pull_output();
+    let mut motor_rv = gpioa.pa2.into_push_pull_output();
     motor_fw.set_low().ok(); // set both low to 100% prevent shoot-through
     motor_rv.set_low().ok();
 
@@ -217,10 +215,9 @@ fn main() -> ! {
         // configure conversion sequence
         adc.chselr_1().write(|w|
             w.sq1().bits(5)     // motor BEMF (PA5)
-            .sq2().bits(8)      // acceleration (PA8)
-            .sq3().bits(1)      // maximum speed (PA1)
-            .sq4().bits(7)      // motor current (PA7)
-            .sq5().bits(0b1111) // 1111 = no channel and EOS
+            .sq2().bits(7)      // acceleration (PA7)
+            .sq3().bits(3)      // maximum speed (PA3)
+            .sq4().bits(0b1111) // 1111 = no channel and EOS
         );
         while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
         adc.isr.write(|w| w.ccrdy().set_bit()); // clear ready flag
