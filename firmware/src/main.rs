@@ -37,44 +37,36 @@ use decoder_state::DecoderState;
 use ring_buffer::{RingBuffer, RingProducer};
 use motor_control::MotorControl;
 
-// MOTOR CONSTANTS
-const F_CLK: u32 = 64_000_000;
+// MOTOR CONTROL
+
+// configurable variables
 const F_PWM: u32 = 25_000;
 const F_PID: u32 = 100;
+const T_BEMF: u32 = 1000; // BEMF cutout duration (us)
+const T_ADC: u32 = 750; // ADC conversion start time (us)
+const N_SAMPLE: usize = 18; // number of BEMF samples to take (~10us each)
+const N_REJECT: usize = 2; // number of peak BEMF samples to reject (commutator noise suppression)
 
-const N_DEADTIME: usize = 24;
-const N_CYCLES: usize = ((F_PWM/F_PID) as usize) - N_DEADTIME;
+// calculated constants
+const F_CLK: u32 = 64_000_000;
+const TIM16_ARR: u32 = (F_CLK/F_PID)/64 - 1;
+const TIM2_ARR_PWM: u32 = (F_CLK/F_PWM) - 1;
+const TIM2_ARR_BEMF: u32 = (F_CLK/1_000_000) * T_BEMF - 1;
+const TIM2_ADC_TRIG: u32 = TIM2_ARR_BEMF - ((F_CLK/1_000_000) * (T_BEMF - T_ADC));
+const PWM_MAX: i32 = TIM2_ARR_PWM as i32;
 
-const T_PWM: u32 = (F_CLK/F_PWM) - 1;
-const T_PWM_LONG: u32 = (F_CLK/F_PWM) * ((N_DEADTIME + 1) as u32) - 1;
-const T_ADC: u32 = T_PWM_LONG - ((F_CLK/1_000_000)*10); //10us before end of deadtime
-
-const MAX_PWM: i32 = T_PWM as i32;
+// static value for TIM2 BEMF measurement automation
+static TIM2_ARR_DMA: u32 = TIM2_ARR_BEMF;
 
 // OTHER CONSTANTS
 const N_PULSE_BUF: usize = 64;
-
 const ADDRESS: u8 = 10;
 
 // TYPES
 // ADC BUFFER (named u16 array)
 #[repr(C)] // this ensures entries are aligned as in C - not rearranged or padded.
-struct AdcBuf {
-    bemf: u16,
-    v_acc: u16,
-    v_max: u16,
-}
-
-impl AdcBuf {
-    const LEN: usize = 3;
-}
-
-// READ-ONLY STATICS - these will live in .rodata (flash only)
-static TIM2_ARR_BUF: [u32; N_CYCLES] = {
-      let mut buf: [u32; N_CYCLES] = [T_PWM; N_CYCLES];
-      buf[N_CYCLES - 1] = T_PWM_LONG;
-      buf
-};
+struct BemfBuf ( [u16; N_SAMPLE] );
+impl BemfBuf { const LEN: usize = N_SAMPLE; }
 
 // READ-WRITE STATICS
 #[repr(transparent)]
@@ -82,12 +74,12 @@ struct SyncCell<T>(UnsafeCell<T>);
 unsafe impl<T> Sync for SyncCell<T> {}
 
 #[unsafe(link_section = ".uninit")] // unloaded RAM section
-static ADC_BUF: SyncCell<MaybeUninit<AdcBuf>> = SyncCell(UnsafeCell::new(MaybeUninit::uninit()));
+static BEMF_BUF: SyncCell<MaybeUninit<BemfBuf>> = SyncCell(UnsafeCell::new(MaybeUninit::uninit()));
 #[unsafe(link_section = ".uninit")] // unloaded RAM section
 static PULSE_BUF: SyncCell<MaybeUninit<RingBuffer<u16, N_PULSE_BUF>>> = SyncCell(UnsafeCell::new(MaybeUninit::uninit()));
 
 static PULSE_PROD: SyncCell<Option<RingProducer<'static, u16, N_PULSE_BUF>>> = SyncCell(UnsafeCell::new(None));
-static MOTOR_CONTROL: SyncCell<MotorControl<MAX_PWM>> = SyncCell(UnsafeCell::new(MotorControl::new()));
+static MOTOR_CONTROL: SyncCell<MotorControl<PWM_MAX>> = SyncCell(UnsafeCell::new(MotorControl::new()));
 
 
 
@@ -144,6 +136,7 @@ fn main() -> ! {
         );
         rcc_raw.apbenr2.modify(|_, w|
             w.tim14en().set_bit() // TIM14
+            .tim16en().set_bit() // TIM16
             .adcen().set_bit() // ADC
         );
     }
@@ -155,34 +148,34 @@ fn main() -> ! {
         let tim2 = &*pac::TIM2::ptr();
         let adc = &*pac::ADC::ptr();
 
-        // DMA channel 1 for TIM2 ARR buffer
-        dmamux.c0cr.write(|w| w.dmareq_id().bits(31)); // see Page 298 - Table 55 (31 = TIM2_UP)
-        dma.ch1.par.write(|w| w.bits(&tim2.arr as *const _ as u32));
-        dma.ch1.mar.write(|w| w.bits(TIM2_ARR_BUF.as_ptr() as u32));
-        dma.ch1.ndtr.write(|w| w.bits(TIM2_ARR_BUF.len() as u32));
+        // DMA channel 1 for ADC result buffer
+        dmamux.c0cr.write(|w| w.dmareq_id().bits(5)); // see Page 298 - Table 55 (5 = ADC)
+        dma.ch1.par.write(|w| w.bits(adc.dr.as_ptr() as u32));
+        dma.ch1.mar.write(|w| w.bits(BEMF_BUF.0.get() as u32));
+        dma.ch1.ndtr.write(|w| w.bits(BemfBuf::LEN as u32));
         dma.ch1.cr.write(|w|
-            w.dir().set_bit() // memory to peripheral
-            .minc().set_bit() // memory increment
-            .pinc().clear_bit() // peripheral address fixed
-            .psize().bits(0b10) // 32-bit peripheral
-            .msize().bits(0b10) // 32-bit memory
-            .circ().set_bit() // circular mode
-            .en().set_bit() // enable channel
-        );
-
-        // DMA channel 2 for ADC result buffer
-        dmamux.c1cr.write(|w| w.dmareq_id().bits(5)); // see Page 298 - Table 55 (5 = ADC)
-        dma.ch2.par.write(|w| w.bits(&adc.dr as *const _ as u32));
-        dma.ch2.mar.write(|w| w.bits(ADC_BUF.0.get() as u32));
-        dma.ch2.ndtr.write(|w| w.bits(AdcBuf::LEN as u32));
-        dma.ch2.cr.write(|w|
             w.dir().clear_bit() // peripheral to memory
             .minc().set_bit() // memory increment
             .pinc().clear_bit() // peripheral address fixed
             .psize().bits(0b01) // 16-bit peripheral
             .msize().bits(0b01) // 16-bit memory
-            .circ().set_bit() // circular mode
+            .circ().clear_bit() // one-shot (needs retriggering)
             .tcie().set_bit() // transfer complete interrupt enable
+            .en().set_bit() // enable channel
+        );
+
+        // DMA channel 2 for TIM2 ARR one-shot
+        dmamux.c1cr.write(|w| w.dmareq_id().bits(46)); // see Page 298 - Table 55 (46 = TIM16_UP)
+        dma.ch2.par.write(|w| w.bits(tim2.arr.as_ptr() as u32));
+        dma.ch2.mar.write(|w| w.bits(&TIM2_ARR_DMA as *const _ as u32));
+        dma.ch2.ndtr.write(|w| w.bits(1));
+        dma.ch2.cr.write(|w|
+            w.dir().set_bit() // memory to peripheral
+            .minc().clear_bit() // memory address fixed
+            .pinc().clear_bit() // peripheral address fixed
+            .psize().bits(0b10) // 32-bit peripheral
+            .msize().bits(0b10) // 32-bit memory
+            .circ().set_bit() // circular mode
             .en().set_bit() // enable channel
         );
     }
@@ -201,12 +194,13 @@ fn main() -> ! {
         adc.cr.modify(|_, w| w.aden().set_bit()); // enable ADC
         while adc.isr.read().adrdy().bit_is_clear() {} // wait for ADC ready
     
-        // configure for trigger on TIM1_TRGO2, rising edge, DMA circular, 12-bit
+        // configure for trigger on TIM2_TRGO, rising edge, DMA circular, 12-bit
         adc.cfgr1.write(|w|
             w.extsel().bits(0b010) // TRG0 = TIM2_TRGO
             .exten().bits(0b01) // rising edge trigger
             .res().bits(0b00) // 12-bit resolution
-            .dmacfg().set_bit() // DMA circular mode
+            .dmacfg().clear_bit() // one-shot DMA mode
+            .cont().set_bit() // continuous ADC mode
             .dmaen().set_bit() // DMA enable
             .chselrmod().set_bit() // sequenced channel selection (SQ1..SQ8)
         );
@@ -216,16 +210,15 @@ fn main() -> ! {
         // configure conversion sequence
         adc.chselr_1().write(|w|
             w.sq1().bits(5)     // motor BEMF (PA5)
-            .sq2().bits(7)      // acceleration (PA7)
-            .sq3().bits(3)      // maximum speed (PA3)
-            .sq4().bits(0b1111) // 1111 = no channel and EOS
+            .sq2().bits(0b1111) // 1111 = no channel and EOS
         );
         while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
         adc.isr.write(|w| w.ccrdy().set_bit()); // clear ready flag
     
-        // set sampling time to 79.5 ADC clock cycles => ~2.5uS
-        // TODO: Check the sampling time vs. input impedance in datasheet
-        adc.smpr.write(|w| w.smp1().bits(0b101));
+        // set sampling time to 160.5 ADC clock cycles (0b111) => ~5uS
+        // 0b111 = 160.5 = ~5us -> 2 * 16 samples = 160.6us
+        // 0b110 = 79.5 = ~2.5us -> 2 * 16 samples = 79.5us
+        adc.smpr.write(|w| w.smp1().bits(0b111));
     
         // start (wait for TRGO2 trigger)
         adc.cr.modify(|_, w| w.adstart().set_bit());
@@ -241,7 +234,7 @@ fn main() -> ! {
         gpioa.afrl.modify(|_, w| w.afsel0().bits(0b0010)); // AF2 = TIM2_CH1
 
         // general timer config
-        tim2.arr.write(|w| w.bits(T_PWM)); // set PWM frequency (25kHz)
+        tim2.arr.write(|w| w.bits(TIM2_ARR_PWM)); // set PWM frequency (25kHz)
         tim2.cr1.write(|w|
             w.arpe().set_bit() // preload ARR (prevent glitches with DMA reload)
             .urs().set_bit() // update event only at overflow
@@ -253,28 +246,44 @@ fn main() -> ! {
         tim2.ccmr1_output().write(|w|
             w.oc1m().bits(0b0110) // CH1 PWM mode 1 (low on match)
             .oc1pe().set_bit() // CCR1 preload enable
-            .oc2m().bits(0b0111) // CH5 PWM mode 2 (high on match)
+            .oc2m().bits(0b0111) // CH2 PWM mode 2 (high on match)
             .oc2pe().set_bit() // not strictly necessary as this is loaded once only
         );
         tim2.ccr1.write(|w| w.bits(0)); // CH1 PWM duty cycle is 0 from start - modified by motor control machine
-        tim2.ccr2.write(|w| w.bits(T_ADC)); // CH2 ADC read trigger
+        tim2.ccr2.write(|w| w.bits(TIM2_ADC_TRIG)); // CH2 ADC trigger
         tim2.ccer.write(|w|
             w.cc1e().set_bit() // output CH1 (PA0)
         );
 
-        // final counter enable - this enables the whole motor drive sequence with BEMF
+        // enable the counter
         tim2.cr1.modify(|_, w| w.cen().set_bit()); // enable the counter
+    }
+
+    // TIM16 setup (motor control measurement driver)
+    unsafe {
+        let tim16 = &*pac::TIM16::ptr();
+
+        // general timer setup
+        tim16.psc.write(|w| w.bits(63u32)); // 1MHz counter
+        tim16.arr.write(|w| w.bits(TIM16_ARR)); // PID reload duration
+        tim16.cr1.write(|w| w.urs().set_bit()); // update event only on overflow
+        tim16.dier.write(|w| w.ude().set_bit()); // overflow DMA request enable
+        
+        // enable the counter
+        tim16.cr1.modify(|_, w| w.cen().set_bit());
     }
 
     // TIM14 setup (track data capture PA4)
     unsafe {
-        let gpioa = &*pac::GPIOA::ptr();
         let tim14 = &*pac::TIM14::ptr();
+        let gpioa = &*pac::GPIOA::ptr();
 
         // gpio setup (alternate mode for TIM14_CH1)
         gpioa.moder.modify(|_, w| w.moder4().bits(0b10));
         gpioa.afrl.modify(|_, w| w.afsel4().bits(0b0100)); // AF4 = TIM14_CH1
 
+        // timer setup
+        tim14.psc.write(|w| w.bits(63u32)); // 1MHz counter frequency (1us resolution)
         tim14.dier.write(|w| w.cc1ie().set_bit()); // enable CC1 interrupt
         tim14.ccmr1_input().write(|w|
             w.ic1f().bits(0b0010) // 0011 N=8, 0010 N=4
@@ -285,8 +294,9 @@ fn main() -> ! {
             .cc1p().set_bit()
             .cc1e().set_bit() // input capture enabled
         );
-        tim14.psc.write(|w| w.bits(63u32)); // 1MHz counter frequency (1us resolution)
-        tim14.cr1.write(|w| w.cen().set_bit()); // enable the counter
+
+        // enable the counter
+        tim14.cr1.write(|w| w.cen().set_bit());
     }
 
     // pulse buffer setup
@@ -309,9 +319,9 @@ fn main() -> ! {
     // set interrupt priorities and enable
     let mut nvic = cp.NVIC;
     unsafe {
-        nvic.set_priority(Interrupt::DMA_CHANNEL2_3, 0b11000000); // lowest priority (3)
+        nvic.set_priority(Interrupt::DMA_CHANNEL1, 0b11000000); // lowest priority (3)
         nvic.set_priority(Interrupt::TIM14, 0b00000000); // highest priority (0)
-        NVIC::unmask(Interrupt::DMA_CHANNEL2_3);
+        NVIC::unmask(Interrupt::DMA_CHANNEL1);
         NVIC::unmask(Interrupt::TIM14);
     }
 
@@ -432,50 +442,56 @@ fn main() -> ! {
 #[interrupt]
 fn DMA_CHANNEL2_3() {
 
-    // local statics
-    static mut DECIMATOR: u8 = 0;
-    static mut ACC_CUM: u16 = 0;
-    static mut VMAX_CUM: u16 = 0;
-
-    static mut BEMF_IIR: i32 = 0;
-
     // global static handles
     let dma = unsafe { &*pac::DMA::ptr() };
-    let dma_buf = unsafe { (&*ADC_BUF.0.get()).assume_init_ref() };
+    let adc = unsafe { &*pac::ADC::ptr() };
+    let tim2 = unsafe { &*pac::TIM2::ptr() };
+    let bemf_buf = unsafe { (&mut *BEMF_BUF.0.get()).assume_init_mut() };
     let motor_control = unsafe { &mut *MOTOR_CONTROL.0.get() };
 
     // clear interrupt flag
-    dma.ifcr.write(|w| w.ctcif2().set_bit());
+    dma.ifcr.write(|w| w.ctcif1().set_bit());
 
-    // BEMF IIR filter - set to 1/2 (shift 1)
-    // this is necessary with the marklin 5-pole DCM motor. Compared to finer DC motors, the mechanical gear drive
-    // of models with this motor causes a lot of noise on the BEMF signal. What is being read is the true BEMF value
-    // at any given instant, but it causes a lot of instability in the PI controller. Thus, it's software filtered. Note
-    // the BEMF dividers also have a hardware RC filter for commutator/general noise.
-    *BEMF_IIR += ((dma_buf.bemf as i32) - *BEMF_IIR) >> 1;
+    // reset TIM2 to normal state
+    tim2.arr.write(|w| unsafe { w.bits(TIM2_ARR_PWM) } );
+    tim2.ccmr1_output().write(|w|
+        w.oc1m().bits(0b0111) // CH1 PWM mode 2 (high on match)
+        .oc1pe().set_bit() // CCR1 preload enable
+        .oc2m().bits(0b0111) // CH2 PWM mode 2 (high on match)
+        .oc2pe().set_bit() // CCR2 preload enable
+    );
+
+    // re-arm the ADC for next cycle (stopped by DMACFG=0 one-shot completion)
+    adc.cr.modify(|_, w| w.adstart().set_bit());
+
+    // re-arm the DMA channel
+    dma.ch1.cr.modify(|_, w| w.en().clear_bit() );
+    while dma.ch1.cr.read().en().bit_is_set() {}
+    dma.ch1.ndtr.write(|w| unsafe { w.bits(BemfBuf::LEN as u32) } );
+    dma.ch1.cr.modify(|_, w| w.en().set_bit() );
+
+    // selection sort highest N_REJECT samples
+    for i in 0..N_REJECT {
+        // find index of largest value
+        let mut max_idx = 0;
+        for j in 0..(N_SAMPLE-i) {
+            if bemf_buf.0[j] > bemf_buf.0[max_idx] {
+                max_idx = j;
+            }
+        }
+        // copy current end into max sample position (discard the max)
+        bemf_buf.0[max_idx] = bemf_buf.0[(N_SAMPLE - 1) - i];
+    }
+
+    // average the samples up to N_REJECT
+    let mut bemf: u32 = 0;
+    for i in 0..N_SAMPLE-N_REJECT {
+        bemf = bemf + (bemf_buf.0[i] as u32);
+    }
+    bemf = bemf/((N_SAMPLE - N_REJECT) as u32);
 
     // update the motor machine
-    motor_control.tick(*BEMF_IIR as u16);
-    
-    // updating the config - 8 sample average
-    if *DECIMATOR >= 7 {
-        // divide both by 8
-        let acc = *ACC_CUM >> 3;
-        let vmax = *VMAX_CUM >> 3;
-
-        // update machine config variables
-        motor_control.new_config(acc, vmax);
-
-        // reset accumulators and decimator - store current values for next 8
-        *ACC_CUM = dma_buf.v_acc;
-        *VMAX_CUM = dma_buf.v_max;
-        *DECIMATOR = 0;
-    } else {
-        // add values this cycle and store
-        *ACC_CUM += dma_buf.v_acc;
-        *VMAX_CUM += dma_buf.v_max;
-        *DECIMATOR += 1;
-    }
+    motor_control.tick(bemf as u16);
 }
 
 #[interrupt]
