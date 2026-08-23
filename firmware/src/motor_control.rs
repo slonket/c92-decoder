@@ -63,8 +63,8 @@ const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
 };
 
 // PI CONTROLLER CONSTANTS
-const PI_KP: i32 = 1024; // proportion co-efficient
-const PI_KI: i32 = 64; // integrator co-efficient
+const PI_KP: i32 = 4096; // proportion co-efficient
+const PI_KI: i32 = 1024; // integrator co-efficient
 
 const FP_SHIFT: u8 = 10; // fixed-point arithmatic scaling factor (64 fractional values)
 const PWM_MIN: i32 = 0; // minimum PWM CCR1 value from PI controllers
@@ -121,7 +121,7 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
     pub const fn new() -> Self {
         Self {
             speed: 0,
-            bemf_max: 0,
+            bemf_max: BEMF_MAX,
             bemf_target: 0,
             bemf_setpoint: 0,
             pot_acc: 0,

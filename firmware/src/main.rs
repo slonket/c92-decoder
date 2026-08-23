@@ -209,15 +209,15 @@ fn main() -> ! {
     
         // configure conversion sequence
         adc.chselr_1().write(|w|
-            w.sq1().bits(5)     // motor BEMF (PA5)
+            w.sq1().bits(5)     // BEMF (PA5)
             .sq2().bits(0b1111) // 1111 = no channel and EOS
         );
         while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
         adc.isr.write(|w| w.ccrdy().set_bit()); // clear ready flag
     
         // set sampling time to 160.5 ADC clock cycles (0b111) => ~5uS
-        // 0b111 = 160.5 = ~5us -> 2 * 16 samples = 160.6us
-        // 0b110 = 79.5 = ~2.5us -> 2 * 16 samples = 79.5us
+        // 0b111 = 160.5 = ~5us -> 16 samples = 79.5us
+        // 0b110 = 79.5 = ~2.5us -> 16 samples = 39.75us
         adc.smpr.write(|w| w.smp1().bits(0b111));
     
         // start (wait for TRGO2 trigger)
@@ -440,7 +440,7 @@ fn main() -> ! {
 }
 
 #[interrupt]
-fn DMA_CHANNEL2_3() {
+fn DMA_CHANNEL1() {
 
     // global static handles
     let dma = unsafe { &*pac::DMA::ptr() };
