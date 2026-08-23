@@ -454,12 +454,6 @@ fn DMA_CHANNEL2_3() {
 
     // reset TIM2 to normal state
     tim2.arr.write(|w| unsafe { w.bits(TIM2_ARR_PWM) } );
-    tim2.ccmr1_output().write(|w|
-        w.oc1m().bits(0b0111) // CH1 PWM mode 2 (high on match)
-        .oc1pe().set_bit() // CCR1 preload enable
-        .oc2m().bits(0b0111) // CH2 PWM mode 2 (high on match)
-        .oc2pe().set_bit() // CCR2 preload enable
-    );
 
     // re-arm the ADC for next cycle (stopped by DMACFG=0 one-shot completion)
     adc.cr.modify(|_, w| w.adstart().set_bit());
