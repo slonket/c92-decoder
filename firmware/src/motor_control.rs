@@ -65,10 +65,9 @@ const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
 // PI CONTROLLER CONSTANTS
 const PI_KP: i32 = 1024; // proportion co-efficient
 const PI_KI: i32 = 64; // integrator co-efficient
-const PI_SHIFT: u8 = 10; // fixed-point arithmatic scaling factor (64 fractional values)
-const PI_MAX: i32 = 2559; // maximum PWM CCR1 value from PI controller
-const PI_MIN: i32 = 0; // minimum PWM CCR1 value from PI controllers
-const I_PRELOAD: i32 = 128_000; // kickstart value from stand-still (idle)
+
+const FP_SHIFT: u8 = 10; // fixed-point arithmatic scaling factor (64 fractional values)
+const PWM_MIN: i32 = 0; // minimum PWM CCR1 value from PI controllers
 
 // MOTOR CONTROL
 enum MotorState {
@@ -92,7 +91,7 @@ impl From<bool> for Direction {
     }
 }
 
-pub struct MotorControl {
+pub struct MotorControl<const MAX_PWM: i32> {
 
     // target BEMF calculation variables
     speed: u8,
@@ -116,7 +115,7 @@ pub struct MotorControl {
     motor_pwm: Option<*mut u32>,
 }
 
-impl MotorControl {
+impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
 
     /// Constructor for static initialisation
     pub const fn new() -> Self {
@@ -184,10 +183,7 @@ impl MotorControl {
                             motor_rv.set_high().ok();
                         }
                     }
-                    // pre-load the integrator for kick-start from zero speed
-                    self.pi_integral = I_PRELOAD;
                     // also preload the setpoint to be the minimum - we don't want to ramp UP from zero
-                    // ramping from zero messes with the kickstart above
                     self.bemf_setpoint = BEMF_MIN;
                     // update running direction and transition to run
                     self.direction = self.pending_direction;
@@ -195,10 +191,8 @@ impl MotorControl {
                 }
             }
             MotorState::Run => {
-
                 // check for the idle state transition case
-                if (self.bemf_setpoint == 0) && (bemf < BEMF_OFF) { // TODO this is just to test open-loop control
-                //if (self.bemf_setpoint == 0) && (bemf_diff < BEMF_OFF) {
+                if (self.bemf_setpoint == 0) && (bemf < BEMF_OFF) {
                     // turn off both direction outputs (saves checking which one to turn off)
                     motor_fw.set_low().ok();
                     motor_rv.set_low().ok();
@@ -225,10 +219,10 @@ impl MotorControl {
                 let error = self.bemf_setpoint as i32 - bemf as i32;
                 
                 // integrate with direct clamp anti-windup
-                self.pi_integral = (self.pi_integral + error * PI_KI).clamp(PI_MIN << PI_SHIFT, PI_MAX << PI_SHIFT);
+                self.pi_integral = (self.pi_integral + error * PI_KI).clamp(-(PWM_MAX << FP_SHIFT), PWM_MAX << FP_SHIFT);
 
                 // compute final output
-                let output = ((error * PI_KP + self.pi_integral) >> PI_SHIFT).clamp(PI_MIN, PI_MAX) as u32;
+                let output = ((error * PI_KP + self.pi_integral) >> FP_SHIFT).clamp(PWM_MIN, PWM_MAX) as u32;
                 
                 unsafe { write_volatile(motor_pwm, output); }
             }

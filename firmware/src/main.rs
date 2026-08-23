@@ -15,7 +15,6 @@ use cortex_m::{
 use hal::{
     prelude::*,
     rcc::{Config, Prescaler, PllConfig},
-    timer::{pins::TimerPin},
 };
 use pac::{interrupt, Interrupt};
 use rt::{entry};
@@ -49,6 +48,8 @@ const N_CYCLES: usize = ((F_PWM/F_PID) as usize) - N_DEADTIME;
 const T_PWM: u32 = (F_CLK/F_PWM) - 1;
 const T_PWM_LONG: u32 = (F_CLK/F_PWM) * ((N_DEADTIME + 1) as u32) - 1;
 const T_ADC: u32 = T_PWM_LONG - ((F_CLK/1_000_000)*10); //10us before end of deadtime
+
+const MAX_PWM: i32 = T_PWM as i32;
 
 // OTHER CONSTANTS
 const N_PULSE_BUF: usize = 64;
@@ -86,7 +87,7 @@ static ADC_BUF: SyncCell<MaybeUninit<AdcBuf>> = SyncCell(UnsafeCell::new(MaybeUn
 static PULSE_BUF: SyncCell<MaybeUninit<RingBuffer<u16, N_PULSE_BUF>>> = SyncCell(UnsafeCell::new(MaybeUninit::uninit()));
 
 static PULSE_PROD: SyncCell<Option<RingProducer<'static, u16, N_PULSE_BUF>>> = SyncCell(UnsafeCell::new(None));
-static MOTOR_CONTROL: SyncCell<MotorControl> = SyncCell(UnsafeCell::new(MotorControl::new()));
+static MOTOR_CONTROL: SyncCell<MotorControl<MAX_PWM>> = SyncCell(UnsafeCell::new(MotorControl::new()));
 
 
 
