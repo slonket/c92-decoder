@@ -62,9 +62,16 @@ const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
     lut
 };
 
-// PI CONTROLLER CONSTANTS
-const PI_KP: i32 = 4096; // proportion co-efficient
-const PI_KI: i32 = 1024; // integrator co-efficient
+// PI CONTROLLER CONSTANTS (25kHz)
+const KP_NORM: i32 = 500; // proportion co-efficient
+const KI_NORM: i32 = 60; // integrator co-efficient
+
+const KP_CRAWL: i32 = 2750; // proportion co-efficient
+const KI_CRAWL: i32 = 800; // integrator co-efficient
+
+// GAIN SCHEDULING - blend from crawl gains to normal gains over this BEMF range
+const GAIN_BLEND_LOW: i32 = 40; // below this: full crawl gains
+const GAIN_BLEND_HIGH: i32 = 160; // above this: full normal gains
 
 const FP_SHIFT: u8 = 10; // fixed-point arithmatic scaling factor (64 fractional values)
 const PWM_MIN: i32 = 0; // minimum PWM CCR1 value from PI controllers
@@ -215,15 +222,22 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
                     return;
                 }
 
+                // GAIN SCHEDULING
+                // blend factor: 0 at/below GAIN_BLEND_LOW (full crawl), (1<<FP_SHIFT) at/above GAIN_BLEND_HIGH (full normal)
+                let sp = self.bemf_setpoint as i32;
+                let blend = ((sp - GAIN_BLEND_LOW) * (1 << FP_SHIFT) / (GAIN_BLEND_HIGH - GAIN_BLEND_LOW)).clamp(0, 1 << FP_SHIFT);
+                // interpolate gains: crawl + (normal - crawl) * blend >> FP_SHIFT
+                let kp = KP_CRAWL + (((KP_NORM - KP_CRAWL) * blend) >> FP_SHIFT);
+                let ki = KI_CRAWL + (((KI_NORM - KI_CRAWL) * blend) >> FP_SHIFT);
+
                 // PI CONTROLLER
                 let error = self.bemf_setpoint as i32 - bemf as i32;
-                
                 // integrate with direct clamp anti-windup
-                self.pi_integral = (self.pi_integral + error * PI_KI).clamp(-(PWM_MAX << FP_SHIFT), PWM_MAX << FP_SHIFT);
-
+                self.pi_integral = (self.pi_integral + error * ki).clamp(-(PWM_MAX << FP_SHIFT), PWM_MAX << FP_SHIFT);
                 // compute final output
-                let output = ((error * PI_KP + self.pi_integral) >> FP_SHIFT).clamp(PWM_MIN, PWM_MAX) as u32;
+                let output = ((error * kp + self.pi_integral) >> FP_SHIFT).clamp(PWM_MIN, PWM_MAX) as u32;
                 
+                // update PWM duty cycle
                 unsafe { write_volatile(motor_pwm, output); }
             }
             MotorState::Brake => {
