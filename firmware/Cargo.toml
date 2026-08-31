@@ -12,12 +12,17 @@ name = "c92-firmware"
 test = false
 harness = false
 
+[features]
+default = ["mm"]
+mm = ["dep:mm-decoder"]
+lenz = ["dep:lenz-decoder"]
+
 [dependencies]
 cortex-m-rt = "0.7.3"
 defmt = "1.0.1"
 defmt-rtt = "1.1.0"
-mm-decoder = "0.3.1"
-lenz-decoder = "0.1.1"
+mm-decoder = { version = "0.3.1", optional = true }
+lenz-decoder = { version = "0.1.1", optional = true }
 
 [dependencies.cortex-m]
 version = "0.7.7"

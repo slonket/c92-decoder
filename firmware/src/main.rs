@@ -19,14 +19,21 @@ use hal::{
 use pac::{interrupt, Interrupt};
 use rt::{entry};
 
+// DECODER INCLUDES
+#[cfg(feature = "mm")]
+use mm_decoder::*;
+#[cfg(feature = "lenz")]
+use lenz_decoder::*;
+
+#[cfg(not(any(feature = "mm", feature = "lenz")))]
+compile_error!("At least one protocol (\"mm\" or \"lenz\") must be enabled");
+
 // OTHER INCLUDES
 use core::{
     cell::UnsafeCell,
     mem::MaybeUninit,
 };
 use defmt::{info, warn};
-use mm_decoder::*;
-use lenz_decoder::*;
 
 // PROJECT MODULES
 mod motor_control;
@@ -87,8 +94,11 @@ static MOTOR_CONTROL: SyncCell<MotorControl<PWM_MAX>> = SyncCell(UnsafeCell::new
 fn main() -> ! {
 
     // track protocol decoding state machines
+    #[cfg(feature = "lenz")]
     static mut LENZ_MACHINE: LenzMachine = LenzMachine::new();
+    #[cfg(feature = "mm")]
     static mut MM_LOCO_MACHINE: MmLocoMachine = MmLocoMachine::new();
+    #[cfg(feature = "mm")]
     static mut MM_ACC_MACHINE: MmAccMachine = MmAccMachine::new();
 
     // decoder state machine and edge detector
@@ -331,6 +341,7 @@ fn main() -> ! {
         if let Ok(pulse) = pulse_cons.get() {
 
             // processing Lenz protocol
+            #[cfg(feature = "lenz")]
             if let Some(packet) = LENZ_MACHINE.advance(pulse) {
                 match packet.get_type() {
                     Some(LenzCommand::Speed(s)) if s.address() == ADDRESS => {
@@ -362,6 +373,7 @@ fn main() -> ! {
             }
 
             // processing MM loco protocol
+            #[cfg(feature = "mm")]
             if let Some(packet) = MM_LOCO_MACHINE.advance(pulse) {
 
                 // ignore packets for foreign addresses
@@ -417,6 +429,7 @@ fn main() -> ! {
             }
 
             // processing MM accessory (old function) protocol
+            #[cfg(feature = "mm")]
             if let Some(packet) = MM_ACC_MACHINE.advance(pulse) {
                 if let MmAccCommand::Func(f) = packet.get_type() {
 
