@@ -1,6 +1,6 @@
 use stm32g0xx_hal::{
     prelude::OutputPin,
-    gpio::{PB6, PB7, Output, OpenDrain},
+    gpio::{PB5, PA12, Output, PushPull},
 };
 
 pub struct DecoderState {
@@ -8,8 +8,8 @@ pub struct DecoderState {
     direction: bool,
     reverse_gate: bool, // used to prevent MM1 reverse spamming
     f0: bool,
-    f0_fw: Option<PB6<Output<OpenDrain>>>,
-    f0_rv: Option<PB7<Output<OpenDrain>>>,
+    f0_fw: Option<PB5<Output<PushPull>>>,
+    f0_rv: Option<PA12<Output<PushPull>>>,
 }
 
 impl DecoderState {
@@ -27,7 +27,7 @@ impl DecoderState {
 
 
     // Pass in the controlled GPIO at runtime
-    pub fn init(&mut self, f0_fw: PB6<Output<OpenDrain>>, f0_rv: PB7<Output<OpenDrain>>) {
+    pub fn init(&mut self, f0_fw: PB5<Output<PushPull>>, f0_rv: PA12<Output<PushPull>>) {
         self.f0_fw = Some(f0_fw);
         self.f0_rv = Some(f0_rv);
     }
@@ -84,16 +84,16 @@ impl DecoderState {
         let f0_rv = unsafe { self.f0_rv.as_mut().unwrap_unchecked() };
         match (self.direction, self.f0) {
             (false, true) => {
-                f0_fw.set_high(); // turn off (open-drain)
-                f0_rv.set_low(); // turn on (open-drain)
+                f0_fw.set_low(); // reverse on
+                f0_rv.set_high();
             }
             (true, true) => {
-                f0_fw.set_low(); // turn on (open-drain)
-                f0_rv.set_high(); // turn off (open-drain)
+                f0_fw.set_high(); // forward on
+                f0_rv.set_low();
             }
             _ => {
-                f0_fw.set_high(); // turn both off
-                f0_rv.set_high();
+                f0_fw.set_low(); // turn both off
+                f0_rv.set_low();
             }
         }
     }

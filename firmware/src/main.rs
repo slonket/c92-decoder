@@ -124,16 +124,18 @@ fn main() -> ! {
     let gpiob = dp.GPIOB.split(&mut rcc);
 
     // motor outputs
-    let mut motor_fw = gpioa.pa1.into_push_pull_output();
-    let mut motor_rv = gpioa.pa2.into_push_pull_output();
+    let mut motor_fw = gpiob.pb3.into_push_pull_output();
+    let mut motor_rv = gpiob.pb4.into_push_pull_output();
     motor_fw.set_low().ok(); // set both low to 100% prevent shoot-through
     motor_rv.set_low().ok();
 
     // function outputs
-    let mut f0_fw = gpiob.pb6.into_open_drain_output();
-    let mut f0_rv = gpiob.pb7.into_open_drain_output();
-    f0_fw.set_high().ok(); // TEMP only while using open-drain outputs
-    f0_rv.set_high().ok();
+    let f0_fw = gpiob.pb5.into_push_pull_output();
+    let f0_rv = gpioa.pa12.into_push_pull_output();
+    let mut f1 = gpioa.pa2.into_push_pull_output();
+    let mut f2 = gpioa.pa3.into_push_pull_output();
+    let mut f3 = gpioa.pa0.into_push_pull_output();
+    let mut f4 = gpioa.pa1.into_push_pull_output();
 
     // peripheral clock enable
     unsafe {
@@ -239,9 +241,9 @@ fn main() -> ! {
         let gpioa = &*pac::GPIOA::ptr();
         let tim2 = &*pac::TIM2::ptr();
 
-        // gpio setup
-        gpioa.moder.modify(|_, w| w.moder0().bits(0b10)); // alternate mode for TIM2_CH1
-        gpioa.afrl.modify(|_, w| w.afsel0().bits(0b0010)); // AF2 = TIM2_CH1
+        // gpio setup (PA15)
+        gpioa.moder.modify(|_, w| w.moder15().bits(0b10)); // alternate mode for TIM2_CH1
+        gpioa.afrh.modify(|_, w| w.afsel15().bits(0b0010)); // AF2 = TIM2_CH1
 
         // general timer config
         tim2.arr.write(|w| w.bits(TIM2_ARR_PWM)); // set PWM frequency (25kHz)
@@ -362,10 +364,10 @@ fn main() -> ! {
                     }
                     Some(LenzCommand::Function(f)) if f.address() == ADDRESS => {
                         let states = f.states();
-                        // f1.set_state(states[0].into()).unwrap();
-                        // f2.set_state(states[1].into()).unwrap();
-                        // f3.set_state(states[2].into()).unwrap();
-                        // f4.set_state(states[3].into()).unwrap();
+                        f1.set_state(states[0].into()).unwrap();
+                        f2.set_state(states[1].into()).unwrap();
+                        f3.set_state(states[2].into()).unwrap();
+                        f4.set_state(states[3].into()).unwrap();
                         motor_control.ramp_bypass(states[3]);
                     }
                     _ => {}
@@ -413,11 +415,11 @@ fn main() -> ! {
 
                             // set the corresponding function - only one per function packet
                             match function {
-                                1 => {} // f1.set_state(state.into()).unwrap(),
-                                2 => {} // f2.set_state(state.into()).unwrap(),
-                                3 => {} // f3.set_state(state.into()).unwrap(),
+                                1 => f1.set_state(state.into()).unwrap(),
+                                2 => f2.set_state(state.into()).unwrap(),
+                                3 => f3.set_state(state.into()).unwrap(),
                                 4 => {
-                                    // f4.set_state(state.into()).unwrap();
+                                    f4.set_state(state.into()).unwrap();
                                     motor_control.ramp_bypass(state);
                                 }
                                 _ => {}
@@ -438,10 +440,10 @@ fn main() -> ! {
 
                         // update all functions
                         let states = f.states();
-                        // f1.set_state(states[0].into()).unwrap();
-                        // f2.set_state(states[1].into()).unwrap();
-                        // f3.set_state(states[2].into()).unwrap();
-                        // f4.set_state(states[3].into()).unwrap();
+                        f1.set_state(states[0].into()).unwrap();
+                        f2.set_state(states[1].into()).unwrap();
+                        f3.set_state(states[2].into()).unwrap();
+                        f4.set_state(states[3].into()).unwrap();
                         motor_control.ramp_bypass(states[3]);
                     }
                 }
