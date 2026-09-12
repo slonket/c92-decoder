@@ -17,6 +17,7 @@ default = ["mm", "marklin"]
 mm = ["dep:mm-decoder"]
 lenz = ["dep:lenz-decoder"]
 marklin = []
+coreless = []
 
 [dependencies]
 cortex-m-rt = "0.7.3"
