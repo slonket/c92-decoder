@@ -63,11 +63,11 @@ const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
 };
 
 // PI CONTROLLER CONSTANTS (25kHz)
-const KP_NORM: i32 = 500; // proportion co-efficient
-const KI_NORM: i32 = 60; // integrator co-efficient
+const KP_NORM: i32 = 250; // proportion co-efficient
+const KI_NORM: i32 = 30; // integrator co-efficient
 
-const KP_CRAWL: i32 = 2750; // proportion co-efficient
-const KI_CRAWL: i32 = 800; // integrator co-efficient
+const KP_CRAWL: i32 = 250; // proportion co-efficient
+const KI_CRAWL: i32 = 30; // integrator co-efficient
 
 // GAIN SCHEDULING - blend from crawl gains to normal gains over this BEMF range
 const GAIN_BLEND_LOW: i32 = 40; // below this: full crawl gains

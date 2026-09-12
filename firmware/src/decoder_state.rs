@@ -8,6 +8,8 @@ pub struct DecoderState {
     direction: bool,
     reverse_gate: bool, // used to prevent MM1 reverse spamming
     f0: bool,
+    // f0_fw: Option<PA12<Output<PushPull>>>,
+    // f0_rv: Option<PB5<Output<PushPull>>>,
     f0_fw: Option<PB5<Output<PushPull>>>,
     f0_rv: Option<PA12<Output<PushPull>>>,
 }
@@ -27,6 +29,7 @@ impl DecoderState {
 
 
     // Pass in the controlled GPIO at runtime
+    // pub fn init(&mut self, f0_fw: PA12<Output<PushPull>>, f0_rv: PB5<Output<PushPull>>) {
     pub fn init(&mut self, f0_fw: PB5<Output<PushPull>>, f0_rv: PA12<Output<PushPull>>) {
         self.f0_fw = Some(f0_fw);
         self.f0_rv = Some(f0_rv);

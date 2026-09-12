@@ -67,7 +67,6 @@ static TIM2_ARR_DMA: u32 = TIM2_ARR_BEMF;
 
 // OTHER CONSTANTS
 const N_PULSE_BUF: usize = 64;
-const ADDRESS: u8 = 10;
 
 // TYPES
 // ADC BUFFER (named u16 array)
@@ -122,6 +121,7 @@ fn main() -> ! {
     // gpio configuration
     let gpioa = dp.GPIOA.split(&mut rcc);
     let gpiob = dp.GPIOB.split(&mut rcc);
+    let gpioc = dp.GPIOC.split(&mut rcc);
 
     // motor outputs
     let mut motor_fw = gpiob.pb3.into_push_pull_output();
@@ -130,12 +130,24 @@ fn main() -> ! {
     motor_rv.set_low().ok();
 
     // function outputs
+    // let f0_fw = gpioa.pa12.into_push_pull_output();
+    // let f0_rv = gpiob.pb5.into_push_pull_output();
     let f0_fw = gpiob.pb5.into_push_pull_output();
     let f0_rv = gpioa.pa12.into_push_pull_output();
     let mut f1 = gpioa.pa2.into_push_pull_output();
     let mut f2 = gpioa.pa3.into_push_pull_output();
     let mut f3 = gpioa.pa0.into_push_pull_output();
     let mut f4 = gpioa.pa1.into_push_pull_output();
+
+    // address input configuration
+    let a7_pin = gpioc.pc14.into_pull_up_input();
+    let a6_pin = gpiob.pb8.into_pull_up_input();
+    let a5_pin = gpiob.pb6.into_pull_up_input();
+    let a4_pin = gpiob.pb1.into_pull_up_input();
+    let a3_pin = gpioc.pc15.into_pull_up_input();
+    let a2_pin = gpioa.pa8.into_pull_up_input();
+    let a1_pin = gpioc.pc6.into_pull_up_input();
+    let a0_pin = gpioa.pa11.into_pull_up_input();
 
     // peripheral clock enable
     unsafe {
@@ -221,7 +233,7 @@ fn main() -> ! {
     
         // configure conversion sequence
         adc.chselr_1().write(|w|
-            w.sq1().bits(5)     // BEMF (PA5)
+            w.sq1().bits(11)     // BEMF (PB7 = CH11)
             .sq2().bits(0b1111) // 1111 = no channel and EOS
         );
         while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
@@ -337,6 +349,24 @@ fn main() -> ! {
         NVIC::unmask(Interrupt::TIM14);
     }
 
+    // load address
+    let address = {
+        // this is done separately to GPIO config to allow for the inputs to stabilise
+        // after the pull-ups are enabled. The ADC startup delay + other config should give a
+        // sufficient delay for configuration
+        let a7 = a7_pin.is_low().unwrap() as u8;
+        let a6 = a6_pin.is_low().unwrap() as u8;
+        let a5 = a5_pin.is_low().unwrap() as u8;
+        let a4 = a4_pin.is_low().unwrap() as u8;
+        let a3 = a3_pin.is_low().unwrap() as u8;
+        let a2 = a2_pin.is_low().unwrap() as u8;
+        let a1 = a1_pin.is_low().unwrap() as u8;
+        let a0 = a0_pin.is_low().unwrap() as u8;
+
+        a0 | a1 << 1 | a2 << 2 | a3 << 3 |
+        a4 << 4 | a5 << 5 | a6 << 6 | a7 << 7
+    };
+
     loop {
 
         // check and process pulses - this will skip other loop items beyond the state machines as well
@@ -346,7 +376,7 @@ fn main() -> ! {
             #[cfg(feature = "lenz")]
             if let Some(packet) = LENZ_MACHINE.advance(pulse) {
                 match packet.get_type() {
-                    Some(LenzCommand::Speed(s)) if s.address() == ADDRESS => {
+                    Some(LenzCommand::Speed(s)) if s.address() == address => {
                         // update f0
                         DECODER_STATE.update_f0(s.f0());
 
@@ -362,7 +392,7 @@ fn main() -> ! {
                             }
                         }
                     }
-                    Some(LenzCommand::Function(f)) if f.address() == ADDRESS => {
+                    Some(LenzCommand::Function(f)) if f.address() == address => {
                         let states = f.states();
                         f1.set_state(states[0].into()).unwrap();
                         f2.set_state(states[1].into()).unwrap();
@@ -379,7 +409,7 @@ fn main() -> ! {
             if let Some(packet) = MM_LOCO_MACHINE.advance(pulse) {
 
                 // ignore packets for foreign addresses
-                if packet.ext_address() == ADDRESS {
+                if packet.ext_address() == address {
 
                     // update f0 - present in every packet
                     DECODER_STATE.update_f0(packet.f0());
@@ -436,7 +466,7 @@ fn main() -> ! {
                 if let MmAccCommand::Func(f) = packet.get_type() {
 
                     // ignore packets for foreign addresses
-                    if f.ext_address() == ADDRESS {
+                    if f.ext_address() == address {
 
                         // update all functions
                         let states = f.states();
@@ -526,7 +556,7 @@ fn TIM14() {
     };
 
     // applying asymmetry correction due to level shifter
-    const ASYM_COMP_US: u16 = 3;
+    const ASYM_COMP_US: u16 = 5;
     let pulse = if raw_pulse == 0 {
         0
     } else if gpioa.idr.read().idr4().bit_is_set() {
