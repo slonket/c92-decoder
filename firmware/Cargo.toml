@@ -13,9 +13,10 @@ test = false
 harness = false
 
 [features]
-default = ["mm"]
+default = ["mm", "marklin"]
 mm = ["dep:mm-decoder"]
 lenz = ["dep:lenz-decoder"]
+marklin = []
 
 [dependencies]
 cortex-m-rt = "0.7.3"

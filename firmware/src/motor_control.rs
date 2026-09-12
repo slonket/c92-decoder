@@ -4,6 +4,7 @@ use stm32g0xx_hal::{
     gpio::{PB3, PB4, Output, PushPull},
 };
 use core::ptr::write_volatile;
+use crate::config::*;
 
 /// MOTOR CONTROLLER
 /// There are many factors that can be used to tune this controller, some that are outside of its constants.
@@ -29,11 +30,8 @@ use core::ptr::write_volatile;
 /// increases phase delay, which makes the controller laggy. It can cause oscillation if too long. This can be changed
 /// in the DMA_CHANNEL2_3 ISR.
 
-// BEMF CONTROL CONSTANTS
-const BEMF_OFF: u16 = 20; // BEMF value to consider the loco "stopped" for state-transition
-const BEMF_MIN: u16 = 40; // minimum speed value
-const BEMF_MAX: u16 = 3760; // maximum speed value (12V BEMF from divider = 3.03V)
-const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
+// LUT of BEMF values from speed settings
+const BEMF_LUT: [u16; 14] = {
 
     // variables
     let base: u64 = 1150; // exponential base (x1000)
@@ -61,17 +59,6 @@ const BEMF_LUT: [u16; 14] = { // LUT of BEMF values from speed settings
 
     lut
 };
-
-// PI CONTROLLER CONSTANTS (25kHz)
-const KP_NORM: i32 = 250; // proportion co-efficient
-const KI_NORM: i32 = 30; // integrator co-efficient
-
-const KP_CRAWL: i32 = 250; // proportion co-efficient
-const KI_CRAWL: i32 = 30; // integrator co-efficient
-
-// GAIN SCHEDULING - blend from crawl gains to normal gains over this BEMF range
-const GAIN_BLEND_LOW: i32 = 40; // below this: full crawl gains
-const GAIN_BLEND_HIGH: i32 = 160; // above this: full normal gains
 
 const FP_SHIFT: u8 = 10; // fixed-point arithmatic scaling factor (64 fractional values)
 const PWM_MIN: i32 = 0; // minimum PWM CCR1 value from PI controllers

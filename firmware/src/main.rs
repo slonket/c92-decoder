@@ -6,7 +6,7 @@ use cortex_m as _;
 use cortex_m_rt as rt;
 use defmt_rtt as _;
 use panic_probe as _;
-use stm32g0xx_hal::{self as hal, pac};
+use stm32g0xx_hal::{self as hal, pac::self};
 
 // EMBEDDED INCLUDES
 use cortex_m::{
@@ -36,25 +36,18 @@ use core::{
 use defmt::{info, warn};
 
 // PROJECT MODULES
+mod config;
 mod motor_control;
 mod ring_buffer;
 mod decoder_state;
 
+use config::*;
 use decoder_state::DecoderState;
 use ring_buffer::{RingBuffer, RingProducer};
 use motor_control::MotorControl;
 
 // MOTOR CONTROL
-
-// configurable variables
-const F_PWM: u32 = 25_000;
-const F_PID: u32 = 100;
-const T_BEMF: u32 = 1000; // BEMF cutout duration (us)
-const T_ADC: u32 = 750; // ADC conversion start time (us)
-const N_SAMPLE: usize = 18; // number of BEMF samples to take (~10us each)
-const N_REJECT: usize = 2; // number of peak BEMF samples to reject (commutator noise suppression)
-
-// calculated constants
+// timer constants calculated from config data
 const F_CLK: u32 = 64_000_000;
 const TIM16_ARR: u32 = (F_CLK/F_PID)/64 - 1;
 const TIM2_ARR_PWM: u32 = (F_CLK/F_PWM) - 1;
