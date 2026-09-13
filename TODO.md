@@ -3,8 +3,6 @@
 ### TODO
 
 - [ ] Write a comprehensive README.md
-- [ ] Implement F1-F4 GPIO (held by decoder_state?).
-    - Framework DONE - need F3/F4 GPIO setup.
 - [ ] Make acceleration potentiometer non-linear and with better range in motor control.
 - [ ] Add emergency stop and decoder disable for motor current limit trip.
 - [ ] Add analog (DC) operation.
@@ -14,6 +12,9 @@
 - [ ] Check MM 81-255 work on other controllers like MS2.
     - [ ] Check the 83-191 address swap on IB-Basic isn't just a bug.
     - [ ] Check all addresses work.
+- [x] Add address loading from DIP switches.
+- [x] Implement F1-F4 GPIO (held by decoder_state?).
+    - Framework DONE - need F3/F4 GPIO setup.
 - [x] Connect F4 state to ramp bypass in motor control.
 - [x] Add motorola old functions F1-F4.
 - [x] Extend MM to use 255 addresses.
