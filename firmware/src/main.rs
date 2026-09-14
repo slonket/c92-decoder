@@ -33,7 +33,7 @@ use core::{
     cell::UnsafeCell,
     mem::MaybeUninit,
 };
-use defmt::{info, warn};
+use defmt::{info, println, warn};
 
 // PROJECT MODULES
 mod config;
@@ -60,6 +60,7 @@ static TIM2_ARR_DMA: u32 = TIM2_ARR_BEMF;
 
 // OTHER CONSTANTS
 const N_PULSE_BUF: usize = 64;
+const ASYM_COMP_US: u16 = 5;
 
 // TYPES
 // ADC BUFFER (named u16 array)
@@ -235,7 +236,7 @@ fn main() -> ! {
         // set sampling time to 160.5 ADC clock cycles (0b111) => ~5uS
         // 0b111 = 160.5 = ~5us -> 16 samples = 79.5us
         // 0b110 = 79.5 = ~2.5us -> 16 samples = 39.75us
-        adc.smpr.write(|w| w.smp1().bits(0b111));
+        adc.smpr.write(|w| w.smp1().bits(0b110));
     
         // start (wait for TRGO2 trigger)
         adc.cr.modify(|_, w| w.adstart().set_bit());
@@ -549,7 +550,6 @@ fn TIM14() {
     };
 
     // applying asymmetry correction due to level shifter
-    const ASYM_COMP_US: u16 = 5;
     let pulse = if raw_pulse == 0 {
         0
     } else if gpioa.idr.read().idr4().bit_is_set() {

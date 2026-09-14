@@ -1,7 +1,8 @@
 TARGET = target/thumbv6m-none-eabi
 
 dev:
-	DEFMT_LOG=info cargo embed defmt
+#	DEFMT_LOG=info cargo embed defmt
+	DEFMT_LOG=info cargo embed defmt --no-default-features --features mm,lenz,coreless
 	rust-size $(TARGET)/debug/c92-firmware
 
 connect:

@@ -7,7 +7,7 @@
 pub const F_PWM: u32 = 25_000;  // PWM frequency (Hz)
 pub const F_PID: u32 = 100;     // sampling + PI controller rate (Hz)
 pub const T_BEMF: u32 = 500;    // BEMF cutout duration (us)
-pub const T_ADC: u32 = 300;     // ADC conversion start time (us)
+pub const T_ADC: u32 = 350;     // ADC conversion start time (us)
 pub const N_SAMPLE: usize = 18; // number of BEMF samples (~10us each)
 pub const N_REJECT: usize = 2;  // number of peak BEMF samples to reject (commutator noise suppression)
 

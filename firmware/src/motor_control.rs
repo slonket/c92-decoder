@@ -6,30 +6,6 @@ use stm32g0xx_hal::{
 use core::ptr::write_volatile;
 use crate::config::*;
 
-/// MOTOR CONTROLLER
-/// There are many factors that can be used to tune this controller, some that are outside of its constants.
-/// Here are the internal configurations related directly to the PI controller:
-/// - PI_KI - Integrator coefficient.
-/// - PI_KP - Proportion coefficient.
-/// - I_PRELOAD - Integrator kick-start value for starting from 0. This must be adjusted after KI/KP for smooth start.
-/// 
-/// The BEMF value is also filtered twice - first in hardware using a divider-RC filter, and then again in software using
-/// an IIR filter. Since BEMF is measured against fixed ranges in software (e.g. 3200 maximum), the maximum speed that can
-/// be measured and achieved is thus set by the BEMF divider. Currently there is an approximate 1/4 divider with 100nF filter
-/// capacitor.
-/// 
-/// The motor is very noisy at high speed - so much so that it's difficult to get stable measurements, hence the large filter capacitor.
-/// Two factors can be adjusted for the BEMF hardware filtering:
-/// - N_DEADTIME in main.rs - number of "dead" PWM cycles used for BEMF measurement settling.
-/// - C_filter - the capacitor in the divider-RC filter.
-/// 
-/// A larger filter cap sets a lower cutoff frequency and rejects more noise, however this also extends BEMF settling time.
-/// Thus N_DEADTIME must also be suitable. N_DEADTIME should be as short as possible so as not to affect drive strength.
-/// 
-/// Lastly, there is an IIR filter for BEMF samples. This should also be set to as little as possible - a larger value
-/// increases phase delay, which makes the controller laggy. It can cause oscillation if too long. This can be changed
-/// in the DMA_CHANNEL2_3 ISR.
-
 // LUT of BEMF values from speed settings
 const BEMF_LUT: [u16; 14] = {
 
