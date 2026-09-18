@@ -4,6 +4,7 @@ use stm32g0xx_hal::{
     gpio::{PB3, PB4, Output, PushPull},
 };
 use core::ptr::write_volatile;
+use defmt::info;
 use crate::config::*;
 
 // LUT of BEMF values from speed settings
@@ -158,6 +159,7 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
                     // update running direction and transition to run
                     self.direction = self.pending_direction;
                     self.state = MotorState::Run;
+                    info!("MOTOR RUN");
                 }
             }
             MotorState::Run => {
@@ -171,6 +173,7 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
                     self.pi_integral = 0;
                     // transition to idle
                     self.state = MotorState::Idle;
+                    info!("MOTOR IDLE");
                     return;
                 }
 
@@ -182,6 +185,7 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
                     self.pi_integral = 0;
                     // transition to brake
                     self.state = MotorState::Brake;
+                    info!("MOTOR BRAKE");
                     return;
                 }
 
@@ -211,6 +215,7 @@ impl<const PWM_MAX: i32> MotorControl<PWM_MAX> {
                     motor_rv.set_low().ok();
                     // transition to idle
                     self.state = MotorState::Idle;
+                    info!("MOTOR IDLE");
                 }
             }
         }

@@ -12,7 +12,7 @@ pub const N_SAMPLE: usize = 18; // number of BEMF samples (~10us each)
 pub const N_REJECT: usize = 2;  // number of peak BEMF samples to reject (commutator noise suppression)
 
 // BEMF THRESHOLDS
-pub const BEMF_OFF: u16 = 15;   // BEMF value to consider the loco "stopped" for state-transition
+pub const BEMF_OFF: u16 = 20;   // BEMF value to consider the loco "stopped" for state-transition
 pub const BEMF_MIN: u16 = 30;   // minimum speed value
 pub const BEMF_MAX: u16 = 3760; // maximum speed value (12V BEMF from divider = 3.03V)
 
@@ -23,5 +23,5 @@ pub const GAIN_BLEND_HIGH: i32 = 80; // above this = full normal gains
 // PI CONTROLLER GAINS
 pub const KP_NORM: i32 = 150;  // normal proportion co-efficient
 pub const KI_NORM: i32 = 15;   // normal integrator co-efficient
-pub const KP_CRAWL: i32 = 300; // crawl proportion co-efficient
-pub const KI_CRAWL: i32 = 30;  // crawl integrator co-efficient
+pub const KP_CRAWL: i32 = 150; // crawl proportion co-efficient
+pub const KI_CRAWL: i32 = 60;  // crawl integrator co-efficient

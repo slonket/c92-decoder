@@ -33,7 +33,7 @@ use core::{
     cell::UnsafeCell,
     mem::MaybeUninit,
 };
-use defmt::{info, println, warn};
+use defmt::{info, warn};
 
 // PROJECT MODULES
 mod config;
@@ -63,7 +63,7 @@ const N_PULSE_BUF: usize = 64;
 const ASYM_COMP_US: u16 = 5;
 
 // TYPES
-// ADC BUFFER (named u16 array)
+// ADC BEMF BUFFER
 #[repr(C)] // this ensures entries are aligned as in C - not rearranged or padded.
 struct BemfBuf ( [u16; N_SAMPLE] );
 impl BemfBuf { const LEN: usize = N_SAMPLE; }
@@ -236,7 +236,7 @@ fn main() -> ! {
         // set sampling time to 160.5 ADC clock cycles (0b111) => ~5uS
         // 0b111 = 160.5 = ~5us -> 16 samples = 79.5us
         // 0b110 = 79.5 = ~2.5us -> 16 samples = 39.75us
-        adc.smpr.write(|w| w.smp1().bits(0b110));
+        adc.smpr.write(|w| w.smp1().bits(0b111));
     
         // start (wait for TRGO2 trigger)
         adc.cr.modify(|_, w| w.adstart().set_bit());
@@ -481,6 +481,15 @@ fn main() -> ! {
 #[interrupt]
 fn DMA_CHANNEL1() {
 
+    // auxiliary ADC data inputs
+    const ADC_SEQ: [u8; 4] = [
+        7, // A_SET
+        8, // V_SET
+        5, // V_PROP_I
+        6, // V_VDD
+    ];
+    let mut adc_buf: [u16; 4] = [0; 4];
+
     // global static handles
     let dma = unsafe { &*pac::DMA::ptr() };
     let adc = unsafe { &*pac::ADC::ptr() };
@@ -494,14 +503,68 @@ fn DMA_CHANNEL1() {
     // reset TIM2 to normal state
     tim2.arr.write(|w| unsafe { w.bits(TIM2_ARR_PWM) } );
 
-    // re-arm the ADC for next cycle (stopped by DMACFG=0 one-shot completion)
-    adc.cr.modify(|_, w| w.adstart().set_bit());
-
     // re-arm the DMA channel
     dma.ch1.cr.modify(|_, w| w.en().clear_bit() );
     while dma.ch1.cr.read().en().bit_is_set() {}
     dma.ch1.ndtr.write(|w| unsafe { w.bits(BemfBuf::LEN as u32) } );
     dma.ch1.cr.modify(|_, w| w.en().set_bit() );
+
+    // configure ADC for individual measurements
+    unsafe {
+        // configure for software trigger, single conversion, sequenced
+        adc.cfgr1.write(|w|
+            w.extsel().bits(0b010) // TRG0 = TIM2_TRGO
+            .exten().bits(0b00) // software trigger
+            .res().bits(0b00) // 12-bit resolution
+            .dmacfg().clear_bit() // one-shot DMA mode
+            .discen().set_bit() // discontinuous ADC mode
+            .dmaen().clear_bit() // DMA disabled
+            .chselrmod().set_bit() // sequenced channel selection (SQ1..SQ8)
+        );
+
+        // configure conversion sequence
+        adc.chselr_1().write(|w|
+            w.sq1().bits(ADC_SEQ[0])
+            .sq2().bits(ADC_SEQ[1])
+            .sq3().bits(ADC_SEQ[2])
+            .sq4().bits(ADC_SEQ[3])
+            .sq5().bits(0b1111) // 1111 = no channel and EOS
+        );
+        while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
+        adc.isr.write(|w| w.ccrdy().set_bit()); // clear ready flag
+    }
+
+    // sample auxiliary channels (automatic sequence)
+    for i in 0..4 {
+        adc.cr.modify(|_, w| w.adstart().set_bit());
+        while adc.isr.read().eoc().bit_is_clear() {} // wait for conversion
+        adc_buf[i] = adc.dr.read().bits() as u16; // reading DR clears EOC flag
+    }
+
+    // reconfigure ADC for BEMF
+    unsafe {
+        // configure for trigger on TIM2_TRGO, rising edge, DMA circular, 12-bit
+        adc.cfgr1.write(|w|
+            w.extsel().bits(0b010) // TRG0 = TIM2_TRGO
+            .exten().bits(0b01) // rising edge trigger
+            .res().bits(0b00) // 12-bit resolution
+            .dmacfg().clear_bit() // one-shot DMA mode
+            .cont().set_bit() // continuous ADC mode
+            .dmaen().set_bit() // DMA enable
+            .chselrmod().set_bit() // sequenced channel selection (SQ1..SQ8)
+        );
+    
+        // configure conversion sequence
+        adc.chselr_1().write(|w|
+            w.sq1().bits(11)     // BEMF (PB7 = CH11)
+            .sq2().bits(0b1111) // 1111 = no channel and EOS
+        );
+        while adc.isr.read().ccrdy().bit_is_clear() {} // wait for channel config ready
+        adc.isr.write(|w| w.ccrdy().set_bit()); // clear ready flag
+
+        // re-arm the ADC for next cycle (stopped by DMACFG=0 one-shot completion)
+        adc.cr.modify(|_, w| w.adstart().set_bit());
+    }
 
     // selection sort highest N_REJECT samples
     for i in 0..N_REJECT {
@@ -523,7 +586,10 @@ fn DMA_CHANNEL1() {
     }
     bemf = bemf/((N_SAMPLE - N_REJECT) as u32);
 
-    // update the motor machine
+    // update motor configuration
+    motor_control.new_config(adc_buf[0], 4095 - adc_buf[1]);
+
+    // update the motor controller
     motor_control.tick(bemf as u16);
 }
 
