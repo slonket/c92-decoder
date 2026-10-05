@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "c92 decoder")
-		(date "2026-08-14")
-		(rev "REV-A1")
+		(date "2026-10-05")
+		(rev "REV-A2")
 		(company "https://github.com/slonket/c92-decoder")
 	)
 	(lib_symbols
@@ -4591,16 +4591,6 @@
 		)
 		(uuid "517dd189-5ddc-4027-9d93-c02067924629")
 	)
-	(text "Output is approx 1/4"
-		(exclude_from_sim no)
-		(at 388.62 116.84 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "53ac8a26-70a1-4c62-a13f-643c1fb3d531")
-	)
 	(text "OPTIONS:\n- C18198103\n- C19189054"
 		(exclude_from_sim no)
 		(at 302.26 173.99 0)
@@ -8556,7 +8546,7 @@
 			(uuid "aab06aa9-9ee4-45ed-9ef8-e8bcbdb7bf55")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C15")
 					(unit 1)
@@ -8635,7 +8625,7 @@
 			(uuid "ad38a5bf-b835-4ea4-b30b-c853c88d4230")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J3")
 					(unit 1)
@@ -8713,7 +8703,7 @@
 			(uuid "f2fbcfe2-3c3b-49e3-a28a-549020b2bacf")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR013")
 					(unit 1)
@@ -8791,7 +8781,7 @@
 			(uuid "1a6dd892-a651-4f56-9c24-1c626930bcc9")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR066")
 					(unit 1)
@@ -8869,7 +8859,7 @@
 			(uuid "800f816f-0c92-4bb5-9fa4-bf804f396e11")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR038")
 					(unit 1)
@@ -8969,7 +8959,7 @@
 			(uuid "9add4db3-1ed9-4433-a3b5-5b219e3134f8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R8")
 					(unit 1)
@@ -9047,7 +9037,7 @@
 			(uuid "36063ee9-247f-416d-b22c-6ca75e5f6204")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR026")
 					(unit 1)
@@ -9227,7 +9217,7 @@
 			(uuid "c657277b-5326-4ae0-af5e-abb2e0f4f876")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "U2")
 					(unit 1)
@@ -9342,7 +9332,7 @@
 			(uuid "37b9aa1d-ec96-427d-bceb-8425992e1862")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q7")
 					(unit 2)
@@ -9420,7 +9410,7 @@
 			(uuid "678b1cfb-30ee-4a00-ac7f-d167313b79cb")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR036")
 					(unit 1)
@@ -9498,7 +9488,7 @@
 			(uuid "e41b003a-6909-4384-b73c-e90f690b5f92")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR046")
 					(unit 1)
@@ -9612,7 +9602,7 @@
 			(uuid "ed41148a-5e3f-4fe5-a287-2299b25df91e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C11")
 					(unit 1)
@@ -9691,7 +9681,7 @@
 			(uuid "b8961b43-1cc3-4158-bf89-8cb032923203")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J4")
 					(unit 1)
@@ -9769,7 +9759,7 @@
 			(uuid "2ddd1a34-4eb2-477b-8f40-d1eab3ab72f9")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR050")
 					(unit 1)
@@ -9887,7 +9877,7 @@
 			(uuid "a30ed81c-d756-4177-8bc6-93d4a7c6419d")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q2")
 					(unit 1)
@@ -9965,7 +9955,7 @@
 			(uuid "b47a273c-f4d9-4922-b692-de319ae8bee5")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR060")
 					(unit 1)
@@ -10043,7 +10033,7 @@
 			(uuid "652b80dd-cb6b-4987-a96c-944ba7a66078")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR031")
 					(unit 1)
@@ -10121,7 +10111,7 @@
 			(uuid "708d89bb-aa6c-4d84-bf3c-1cca8c26c743")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR064")
 					(unit 1)
@@ -10199,7 +10189,7 @@
 			(uuid "4fe08461-61b7-4d15-8ffb-ce54e387cd54")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR024")
 					(unit 1)
@@ -10315,7 +10305,7 @@
 			(uuid "a6c573b5-09cc-416f-80aa-b45bd844618a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q4")
 					(unit 1)
@@ -10417,7 +10407,7 @@
 			(uuid "0879b82f-840d-484e-b69d-32cfcd782611")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D3")
 					(unit 1)
@@ -10523,7 +10513,7 @@
 			(uuid "bd545155-5fe9-487a-ba0b-f4f9a7883288")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "RV1")
 					(unit 1)
@@ -10632,7 +10622,7 @@
 			(uuid "c6db91d3-d4f1-4c54-a123-a583e1d113e1")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J2")
 					(unit 1)
@@ -10710,7 +10700,7 @@
 			(uuid "9d552faf-14a9-45af-b1e7-a3fe20196761")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR042")
 					(unit 1)
@@ -10811,7 +10801,7 @@
 			(uuid "4305c4c4-211c-4ac5-a0c1-16cc1692378e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R9")
 					(unit 1)
@@ -10889,7 +10879,7 @@
 			(uuid "0e693676-2134-4714-bbb0-14b1aec9583f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR057")
 					(unit 1)
@@ -10967,7 +10957,7 @@
 			(uuid "71c42af2-047a-475e-bc2c-29f6f2a05ecd")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J9")
 					(unit 1)
@@ -11067,7 +11057,7 @@
 			(uuid "e31f2636-b8ee-472c-99c7-4897fb354487")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R7")
 					(unit 1)
@@ -11145,7 +11135,7 @@
 			(uuid "4c3165ae-b337-4cee-8e8c-12588f3df7c8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR059")
 					(unit 1)
@@ -11260,7 +11250,7 @@
 			(uuid "c93159c8-93c1-4897-b9bb-5c0acb8bdfd8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C1")
 					(unit 1)
@@ -11338,7 +11328,7 @@
 			(uuid "7911eb33-dde7-40d2-9691-1eb0d746e4b2")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR05")
 					(unit 1)
@@ -11440,7 +11430,7 @@
 			(uuid "d41d8f09-1661-4dcc-aae3-0086c5a388e7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D4")
 					(unit 1)
@@ -11518,7 +11508,7 @@
 			(uuid "fae0fcf5-28d9-475d-9c1c-ba8cbe0698cf")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR055")
 					(unit 1)
@@ -11596,7 +11586,7 @@
 			(uuid "3598d9e5-aafa-4ee6-84af-3ba8ed7c4729")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR019")
 					(unit 1)
@@ -11699,7 +11689,7 @@
 			(uuid "d0e28087-9c1a-4523-ac9e-5b6a1af816d8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R24")
 					(unit 1)
@@ -11777,7 +11767,7 @@
 			(uuid "7ff3e1a3-07f8-4a39-8c88-8bd1b405a198")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR035")
 					(unit 1)
@@ -11855,7 +11845,7 @@
 			(uuid "a394427f-9c6c-4d10-9fca-4e861e0085bf")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR058")
 					(unit 1)
@@ -11970,7 +11960,7 @@
 			(uuid "8241f98a-9c18-4ba0-a3eb-23f05047c724")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q6")
 					(unit 2)
@@ -12048,7 +12038,7 @@
 			(uuid "bc2bd440-eebd-4e36-a704-205cf43971a3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR09")
 					(unit 1)
@@ -12126,7 +12116,7 @@
 			(uuid "a51d090b-2d15-4de5-9226-a82b193ea755")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR011")
 					(unit 1)
@@ -12226,7 +12216,7 @@
 			(uuid "730a72fd-b2af-43ac-8d4c-8d70ba48dca4")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R4")
 					(unit 1)
@@ -12305,7 +12295,7 @@
 			(uuid "c8213728-8e7d-4d28-90d2-e322b729b321")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J6")
 					(unit 1)
@@ -12419,7 +12409,7 @@
 			(uuid "a98e08e6-4b85-4ba1-8bc6-523a5f408fa3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C4")
 					(unit 1)
@@ -12519,7 +12509,7 @@
 			(uuid "383fef5b-663e-4622-9960-84569d638106")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R2")
 					(unit 1)
@@ -12622,7 +12612,7 @@
 			(uuid "23e9dc01-912b-476f-86d2-7c1fcad45be9")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R12")
 					(unit 1)
@@ -12723,7 +12713,7 @@
 			(uuid "59825c81-bce8-455e-b2c0-c7f4ae9746fc")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R13")
 					(unit 1)
@@ -12826,7 +12816,7 @@
 			(uuid "362ee002-191a-4029-992b-f14141b4be79")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R20")
 					(unit 1)
@@ -12929,7 +12919,7 @@
 			(uuid "02e70f4a-965c-4f14-8298-a02a58b29d38")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R28")
 					(unit 1)
@@ -13029,7 +13019,7 @@
 			(uuid "e86e48f6-072d-4dc0-9770-7c2db9237704")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R17")
 					(unit 1)
@@ -13107,7 +13097,7 @@
 			(uuid "eed691b9-1e33-451d-ad44-8f6d42238ef9")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR068")
 					(unit 1)
@@ -13219,7 +13209,7 @@
 			(uuid "4db4437b-94d8-4132-85bd-cb02e7b05982")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "U3")
 					(unit 1)
@@ -13297,7 +13287,7 @@
 			(uuid "ca116632-275d-44ea-b7dc-a95f92f53d3e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR049")
 					(unit 1)
@@ -13375,7 +13365,7 @@
 			(uuid "3d6815b9-bf4c-43b0-b298-80098f1bc038")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR043")
 					(unit 1)
@@ -13477,7 +13467,7 @@
 			(uuid "bcbe43ec-a971-4970-bc63-fa49b1fbbfd8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D1")
 					(unit 1)
@@ -13581,7 +13571,7 @@
 			(uuid "0b16508f-5f8a-47eb-8ace-fc8e259a201d")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R16")
 					(unit 1)
@@ -13659,7 +13649,7 @@
 			(uuid "e4ebd8e0-5474-49df-83ee-df000e12646d")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR025")
 					(unit 1)
@@ -13737,7 +13727,7 @@
 			(uuid "40c6fe93-84b4-4d1e-ac0a-671c2cc8200b")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR06")
 					(unit 1)
@@ -13815,7 +13805,7 @@
 			(uuid "b4672a54-d5e4-4ac5-8b58-951c29ecf757")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR023")
 					(unit 1)
@@ -13893,7 +13883,7 @@
 			(uuid "c307dd99-3ec5-47f3-9a66-a7b4a0e9d237")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR032")
 					(unit 1)
@@ -13999,7 +13989,7 @@
 			(uuid "dbdf4ff7-193b-45bb-aa02-d8975161ce6b")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "RV2")
 					(unit 1)
@@ -14102,7 +14092,7 @@
 			(uuid "0fe955dd-9487-434d-9f54-8414383dead3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R10")
 					(unit 1)
@@ -14180,7 +14170,7 @@
 			(uuid "e386e936-7c65-4d8e-91da-1f4cbc8e0bfb")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR03")
 					(unit 1)
@@ -14296,7 +14286,7 @@
 			(uuid "3a0d58d4-8a22-4c7c-8267-7a727da171be")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q3")
 					(unit 2)
@@ -14314,7 +14304,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "6d7fb0c6-b82c-4d36-86f0-7bf8bbc753cb")
 		(property "Reference" "C14"
 			(at 379.73 133.35 0)
@@ -14411,7 +14401,7 @@
 			(uuid "f3218532-5a26-4776-919d-d2e90ba689bd")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C14")
 					(unit 1)
@@ -14526,7 +14516,7 @@
 			(uuid "37b9aa1d-ec96-427d-bceb-8425992e1863")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q5")
 					(unit 1)
@@ -14626,7 +14616,7 @@
 			(uuid "2280acf0-c653-4aff-a02b-a656acc41092")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R18")
 					(unit 1)
@@ -14704,7 +14694,7 @@
 			(uuid "dc959393-07c9-44a8-8791-8d390b0da510")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR052")
 					(unit 1)
@@ -14819,7 +14809,7 @@
 			(uuid "6d09f58d-09cd-4e2c-b574-e56c713e8136")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q3")
 					(unit 1)
@@ -14934,7 +14924,7 @@
 			(uuid "b2eab2c8-5983-4b2d-9c42-94572d072a73")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C6")
 					(unit 1)
@@ -15034,7 +15024,7 @@
 			(uuid "bb46ce8b-7b18-40f1-b6dd-0672e40ce83a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R19")
 					(unit 1)
@@ -15149,7 +15139,7 @@
 			(uuid "b870a0c3-310f-4b1c-b76d-1c96ea94c110")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q4")
 					(unit 2)
@@ -15264,7 +15254,7 @@
 			(uuid "37b9aa1d-ec96-427d-bceb-8425992e1864")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q7")
 					(unit 1)
@@ -15389,7 +15379,7 @@
 			(uuid "2912a345-d1b7-49b4-9c49-5a14a0e9549e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C13")
 					(unit 1)
@@ -15498,7 +15488,7 @@
 			(uuid "ef8f622b-3998-4288-80ce-ee5b67763703")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "U1")
 					(unit 1)
@@ -15615,7 +15605,7 @@
 			(uuid "10b09efb-f57c-43df-9ed0-dfe6f971f48e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q2")
 					(unit 2)
@@ -15693,7 +15683,7 @@
 			(uuid "b6759d29-6166-4530-b4c8-467b06de8c50")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR056")
 					(unit 1)
@@ -15771,7 +15761,7 @@
 			(uuid "f8960112-0b22-4211-b631-3dd5e26c3cc2")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR048")
 					(unit 1)
@@ -15871,7 +15861,7 @@
 			(uuid "ea886165-ef3e-4e1b-b8dd-bd278111389a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R27")
 					(unit 1)
@@ -15986,7 +15976,7 @@
 			(uuid "5dcdcb5d-c5f8-4bcb-8c45-86f2788a10d7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C9")
 					(unit 1)
@@ -16086,7 +16076,7 @@
 			(uuid "1693ab2e-b8df-4dbe-926b-a22562f494b8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R26")
 					(unit 1)
@@ -16189,7 +16179,7 @@
 			(uuid "b4a130ae-2167-4687-83e0-1f17f2b835b0")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R1")
 					(unit 1)
@@ -16331,7 +16321,7 @@
 			(uuid "dc71dc3b-57ec-412d-a74f-d7be5fc10313")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "SW1")
 					(unit 1)
@@ -16409,7 +16399,7 @@
 			(uuid "a5d3b312-8b52-403c-b80a-1ea7822facf4")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR051")
 					(unit 1)
@@ -16523,7 +16513,7 @@
 			(uuid "01e79f01-3baf-4b80-8bad-3732af864a8e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C7")
 					(unit 1)
@@ -16601,7 +16591,7 @@
 			(uuid "22160dd8-4087-4c75-9afe-bbe0037f78d0")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR014")
 					(unit 1)
@@ -16715,7 +16705,7 @@
 			(uuid "0b12b509-8507-480f-989c-fdd76e76896d")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C5")
 					(unit 1)
@@ -16793,7 +16783,7 @@
 			(uuid "d3af3cb7-c893-472e-96a2-d1bec1edd317")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR010")
 					(unit 1)
@@ -16896,7 +16886,7 @@
 			(uuid "6bcdce21-6be8-4327-a040-0a3327dd9b3a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R31")
 					(unit 1)
@@ -17011,7 +17001,7 @@
 			(uuid "37b9aa1d-ec96-427d-bceb-8425992e1865")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q6")
 					(unit 1)
@@ -17089,7 +17079,7 @@
 			(uuid "2d2372af-7e01-4848-83ea-3a6549520c1f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR016")
 					(unit 1)
@@ -17192,7 +17182,7 @@
 			(uuid "8ababb06-7039-4f96-af79-d447082e80c3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R29")
 					(unit 1)
@@ -17292,7 +17282,7 @@
 			(uuid "52c89d91-e12c-4cf2-8a37-21e44885cac0")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R22")
 					(unit 1)
@@ -17370,7 +17360,7 @@
 			(uuid "9afece0d-2c21-4921-9124-412f508960c0")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR033")
 					(unit 1)
@@ -17448,7 +17438,7 @@
 			(uuid "5c85f8c5-3c24-45dd-9ad6-1b564cee1ab7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR070")
 					(unit 1)
@@ -17526,7 +17516,7 @@
 			(uuid "0933c064-6ddf-413a-9cb7-32c0d77d8acb")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR01")
 					(unit 1)
@@ -17604,7 +17594,7 @@
 			(uuid "5fb796d2-1045-45f4-ac67-b64ef6761cf7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR047")
 					(unit 1)
@@ -17683,7 +17673,7 @@
 			(uuid "7691f42a-c113-4d26-9044-312233535cd1")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J7")
 					(unit 1)
@@ -17783,7 +17773,7 @@
 			(uuid "cdf7f363-e784-4726-ab55-99cbd9745f5e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R30")
 					(unit 1)
@@ -17887,7 +17877,7 @@
 			(uuid "9cf70ba5-b9b4-4da6-88c6-502f90702089")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R11")
 					(unit 1)
@@ -17905,7 +17895,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "a2bdc48c-22c6-48ec-9c7e-673e75a95434")
 		(property "Reference" "R15"
 			(at 369.57 134.62 0)
@@ -17990,7 +17980,7 @@
 			(uuid "1bfd99c8-1138-4010-bfab-49e310d76746")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R15")
 					(unit 1)
@@ -18104,7 +18094,7 @@
 			(uuid "527bdbcb-3379-4387-a8b6-f13b2e21e00b")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C18")
 					(unit 1)
@@ -18182,7 +18172,7 @@
 			(uuid "5129da2c-1251-4c73-88f9-ba59ea0a4dbd")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR012")
 					(unit 1)
@@ -18260,7 +18250,7 @@
 			(uuid "35e51d0a-1e8d-455d-be67-d79d912eec98")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J10")
 					(unit 1)
@@ -18338,7 +18328,7 @@
 			(uuid "d77a3905-ec0b-46ea-92fa-8011a1446722")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR054")
 					(unit 1)
@@ -18416,7 +18406,7 @@
 			(uuid "821546b6-3ab5-40a9-9844-021ae0460ade")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR027")
 					(unit 1)
@@ -18516,7 +18506,7 @@
 			(uuid "7e323036-bbdc-4b4c-ac95-c664febc27f3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D8")
 					(unit 1)
@@ -18631,7 +18621,7 @@
 			(uuid "262ce91e-1a95-4f3a-bcef-211487364573")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C2")
 					(unit 1)
@@ -18709,7 +18699,7 @@
 			(uuid "cafb105a-b239-4d56-ad76-53e85e09d396")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J11")
 					(unit 1)
@@ -18812,7 +18802,7 @@
 			(uuid "1b34f425-1dcc-4669-9499-cc5030557f4a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R3")
 					(unit 1)
@@ -18890,7 +18880,7 @@
 			(uuid "98804c77-a592-4ce1-ac93-c16780e2f2e0")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR039")
 					(unit 1)
@@ -18994,7 +18984,7 @@
 			(uuid "221fcf8b-2d96-4e24-86d2-eb95c2339bb1")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D5")
 					(unit 1)
@@ -19072,7 +19062,7 @@
 			(uuid "795b9fd9-bb12-4c76-9ce9-cf751e8fd9c3")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR063")
 					(unit 1)
@@ -19175,7 +19165,7 @@
 			(uuid "beadcd1a-59f5-463c-857f-618e3726f466")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R25")
 					(unit 1)
@@ -19253,7 +19243,7 @@
 			(uuid "b46de026-a1ab-4b62-8a0d-d9aa9de58313")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR067")
 					(unit 1)
@@ -19332,7 +19322,7 @@
 			(uuid "2a6c591c-1847-4e26-ab33-1abd551efb40")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR08")
 					(unit 1)
@@ -19450,7 +19440,7 @@
 			(uuid "10b09efb-f57c-43df-9ed0-dfe6f971f48f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q1")
 					(unit 2)
@@ -19564,7 +19554,7 @@
 			(uuid "b0742864-2d25-45ec-9827-e46efab96372")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C8")
 					(unit 1)
@@ -19666,7 +19656,7 @@
 			(uuid "5f8f0a66-5260-42a7-b217-9212a0f0b287")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "D2")
 					(unit 1)
@@ -19744,7 +19734,7 @@
 			(uuid "e7aac4e7-0039-4125-8660-28938abd002e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J13")
 					(unit 1)
@@ -19823,7 +19813,7 @@
 			(uuid "83ba410b-7a14-4a29-a09f-af96f5282bf4")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J5")
 					(unit 1)
@@ -19901,7 +19891,7 @@
 			(uuid "559281be-ec37-4f49-9b84-667373046bd4")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR053")
 					(unit 1)
@@ -19980,7 +19970,7 @@
 			(uuid "3470151b-f5a3-4ee1-b2d3-9873282a9b5a")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR07")
 					(unit 1)
@@ -20097,7 +20087,7 @@
 			(uuid "3fc33ef0-fa1d-420b-a3c2-43322c9cddde")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q1")
 					(unit 1)
@@ -20200,7 +20190,7 @@
 			(uuid "4c8d1009-7f0c-4e2c-9569-2b68690cea12")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R21")
 					(unit 1)
@@ -20315,7 +20305,7 @@
 			(uuid "2d265c6d-7c4b-4889-8b3c-bbe6d71b52de")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C3")
 					(unit 1)
@@ -20393,7 +20383,7 @@
 			(uuid "72b89c12-cf45-4cce-9357-15e042f880ae")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR04")
 					(unit 1)
@@ -20471,7 +20461,7 @@
 			(uuid "eab32c39-eec3-4e61-a4dd-75b5f25c82fa")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR065")
 					(unit 1)
@@ -20573,7 +20563,7 @@
 			(uuid "11e46645-1a83-4129-87eb-765cbf8ac7a7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R32")
 					(unit 1)
@@ -20652,7 +20642,7 @@
 			(uuid "c39fe56d-d0a2-4a32-a117-6d9113de225e")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J1")
 					(unit 1)
@@ -20730,7 +20720,7 @@
 			(uuid "492c615f-d335-4f0a-ada0-258fa2ff252d")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR045")
 					(unit 1)
@@ -20844,7 +20834,7 @@
 			(uuid "2bcd8972-fdb1-4940-a33f-aa3957ed95c8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C10")
 					(unit 1)
@@ -20958,7 +20948,7 @@
 			(uuid "84df20c1-ca6b-49ae-a2bb-d06a68ab615f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C17")
 					(unit 1)
@@ -21036,7 +21026,7 @@
 			(uuid "45e7cb76-8ebc-420e-a48e-b732871a1093")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR028")
 					(unit 1)
@@ -21114,7 +21104,7 @@
 			(uuid "c2ed9a0b-0b1b-4ed0-b563-0dd1650f2602")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR040")
 					(unit 1)
@@ -21214,7 +21204,7 @@
 			(uuid "c4621e5f-11e0-4d03-8b57-5514e8f06bc8")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R23")
 					(unit 1)
@@ -21329,7 +21319,7 @@
 			(uuid "1f361e21-c859-4b12-8392-3d0c6569a641")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "Q5")
 					(unit 2)
@@ -21408,7 +21398,7 @@
 			(uuid "d6351cec-5fd4-4289-95e7-2130d49f5603")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J8")
 					(unit 1)
@@ -21487,7 +21477,7 @@
 			(uuid "0c17c789-5d79-45e8-b686-a046c0ac7f47")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR02")
 					(unit 1)
@@ -21565,7 +21555,7 @@
 			(uuid "99eef123-e7af-4372-8315-fb7d8e55c55f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR062")
 					(unit 1)
@@ -21643,7 +21633,7 @@
 			(uuid "4875b057-6414-4275-bc40-efbed1be8f0c")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR018")
 					(unit 1)
@@ -21721,7 +21711,7 @@
 			(uuid "27816942-e5b2-4248-be53-9dd053390dfd")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J14")
 					(unit 1)
@@ -21799,7 +21789,7 @@
 			(uuid "d1fd347f-5b46-4bed-b26d-a4d37ff3b959")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR034")
 					(unit 1)
@@ -21900,7 +21890,7 @@
 			(uuid "ab493f13-d17b-47e8-abb8-7ce49958c194")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R6")
 					(unit 1)
@@ -21978,7 +21968,7 @@
 			(uuid "03369568-49a3-4753-b188-3455d2acdc21")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR017")
 					(unit 1)
@@ -22092,7 +22082,7 @@
 			(uuid "0f6fc245-7db6-44d4-a00d-03d75b9a79ad")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C12")
 					(unit 1)
@@ -22170,7 +22160,7 @@
 			(uuid "8e05c917-62bb-4a25-afb5-c6bb70669b21")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR022")
 					(unit 1)
@@ -22270,7 +22260,7 @@
 			(uuid "681168d1-872b-48b8-9556-f74f30e03633")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R5")
 					(unit 1)
@@ -22348,7 +22338,7 @@
 			(uuid "50efdb97-0491-42b8-9983-363d736f7f2c")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR044")
 					(unit 1)
@@ -22426,7 +22416,7 @@
 			(uuid "262c8096-0fb5-499e-b027-201bc22aedb7")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR041")
 					(unit 1)
@@ -22529,7 +22519,7 @@
 			(uuid "9248f44e-5cbe-4718-9fe8-59fcb60714d1")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "R14")
 					(unit 1)
@@ -22608,7 +22598,7 @@
 			(uuid "0a0595bf-8f21-4585-b162-1b7a81e7cb9b")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR029")
 					(unit 1)
@@ -22686,7 +22676,7 @@
 			(uuid "7dababcd-d90a-43f0-b93a-ae3556f02f46")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR030")
 					(unit 1)
@@ -22764,7 +22754,7 @@
 			(uuid "3322bbbd-29d5-4d4f-b434-2320a7bdba1f")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "J12")
 					(unit 1)
@@ -22842,7 +22832,7 @@
 			(uuid "7ad4938e-ef5c-466b-a778-af78a2d3363b")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "#PWR061")
 					(unit 1)
@@ -22956,7 +22946,7 @@
 			(uuid "d36c1f21-d34e-4900-a2db-88227c3224b4")
 		)
 		(instances
-			(project "c92_decoder_A1"
+			(project "c92_decoder_A2"
 				(path "/5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
 					(reference "C16")
 					(unit 1)

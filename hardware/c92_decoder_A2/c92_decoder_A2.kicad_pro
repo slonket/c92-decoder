@@ -241,7 +241,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": "REV-A1"
+      "sch_revision": "REV-A2"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -490,7 +490,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "c92_decoder_A1.kicad_pro",
+    "filename": "c92_decoder_A2.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -699,8 +699,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "c92_decoder_A1.kicad_sch",
-        "name": "c92_decoder_A1",
+        "filename": "c92_decoder_A2.kicad_sch",
+        "name": "c92_decoder_A2",
         "uuid": "5dcb9491-3197-41d1-8fe6-65fc6383ccf5"
       }
     ],
@@ -710,7 +710,7 @@
   "sheets": [
     [
       "5dcb9491-3197-41d1-8fe6-65fc6383ccf5",
-      "c92_decoder_A1"
+      "c92_decoder_A2"
     ]
   ],
   "text_variables": {},
