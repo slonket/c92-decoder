@@ -5,7 +5,7 @@
 	(uuid "5dcb9491-3197-41d1-8fe6-65fc6383ccf5")
 	(paper "A3")
 	(title_block
-		(title "c92 decoder")
+		(title "c92 decoder - standard")
 		(date "2026-10-05")
 		(rev "REV-A2")
 		(company "https://github.com/slonket/c92-decoder")
@@ -1340,7 +1340,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "c92_core_A2.kicad_sch"
+		(property "Sheetfile" "../c92_core_A2.kicad_sch"
 			(at 190.5 152.9846 0)
 			(show_name no)
 			(do_not_autoplace no)
